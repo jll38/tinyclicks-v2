@@ -3,9 +3,14 @@ abstract class Validator {
     return false;
   }
 }
+export class AliasValidator extends Validator {
+  static validate(alias: string) {
+    const pattern = /^[a-zA-Z0-9-]+$/;
+    return pattern.test(alias);
+  }
+}
 
 export class LinkValidator extends Validator {
-    
   static validate(link: string): boolean {
     try {
       const newUrl = new URL(link);
