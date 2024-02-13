@@ -7,7 +7,6 @@ export class Shortener {
     const shortenedURL = base62URL.slice(0, 7);
     //ENV_DOMAIN | On dev branch this will be localhost, on production this will be Tinyclicks.co
     return process.env.NEXT_PUBLIC_ENV_DOMAIN + shortenedURL; 
-    
   }
 
   protected static hashURL(url: string) {
