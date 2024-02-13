@@ -6,7 +6,7 @@ import { Shortener } from "../../../../lib/Shortener";
 export async function POST(req: NextRequest) {
   const { userID, originalURL, locked } = await req.json();
 
-  const shortURL = Shortener.shorten(originalURL);
+  const shortURL = await ensureUnique(Shortener.shorten(originalURL));
 
   if (await createUrlRecord(userID, originalURL, shortURL, locked))
     return NextResponse.json(
@@ -34,7 +34,7 @@ async function createUrlRecord(
       data: {
         userId,
         originalURL,
-        shortURL: shortURL,
+        shortURL,
         protected: locked,
       },
     });
@@ -43,4 +43,34 @@ async function createUrlRecord(
     console.error("Error: " + err);
     return false;
   }
+}
+
+async function ensureUnique(
+  shortURL: string,
+  attempt: number = 0
+): Promise<string> {
+  const maxAttempts = 10; // Maximum number of attempts to generate a unique URL
+  if (attempt >= maxAttempts) {
+    throw new Error("Maximum attempts to generate a unique URL exceeded.");
+  }
+
+  if (!(await doesExist(shortURL))) {
+    return shortURL;
+  } else {
+    const uniqueSuffix =
+      Date.now().toString(36) + Math.random().toString(36).substr(2, 3);
+    const newShortURL = shortURL + uniqueSuffix;
+    return ensureUnique(newShortURL, attempt + 1); // Increment the attempt count
+  }
+}
+
+async function doesExist(shortURL: string): Promise<boolean> {
+  const record = await Prisma.getInstance().link.findFirst({
+    where: {
+      shortURL,
+    },
+  });
+  console.log(record);
+  if (record === null) return false;
+  return true;
 }

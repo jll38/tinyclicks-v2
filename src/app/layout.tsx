@@ -4,7 +4,7 @@ import "./globals.css";
 import "@mantine/core/styles.css";
 import { createTheme, MantineProvider } from "@mantine/core";
 import { ColorSchemeScript } from "@mantine/core";
-
+import Navbar from "@/components/shared/Navbar";
 const theme = createTheme({
   /** Put your mantine theme override here */
 });
@@ -26,7 +26,10 @@ export default function RootLayout({
         <ColorSchemeScript />
       </head>
       <MantineProvider theme={theme}>
-        <body className={inter.className}>{children}</body>
+        <body className={inter.className}>
+          <Navbar />
+          {children}
+        </body>
       </MantineProvider>
     </html>
   );
