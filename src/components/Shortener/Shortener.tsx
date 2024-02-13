@@ -5,7 +5,7 @@ import { Box, Button, TextInput, rem, Flex } from "@mantine/core";
 import { LinkValidator } from "@/lib/validator";
 
 export default function Shortener() {
-  const userID = "657bf0e8f02c01a8e4417663"; //Temporary value
+  const userID = null; //Temporary value
   const [link, setLink] = React.useState<string>("");
 
   return (

@@ -24,7 +24,7 @@ export async function POST(req: NextRequest) {
 }
 
 async function createUrlRecord(
-  userId: string,
+  userId: string | null,
   originalURL: string,
   shortURL: string,
   locked: boolean
