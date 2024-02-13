@@ -4,11 +4,12 @@ import { NextResponse, NextRequest } from "next/server";
 import { Shortener } from "../../../../lib/Shortener";
 
 export async function POST(req: NextRequest) {
-
-  const shortURL = Shortener.shorten("www.example.com");
+  const { userID, originalURL, locked } = await req.json();
+  
+  const shortURL = Shortener.shorten(originalURL);
 
   return NextResponse.json(
-    { message: shortURL },
+    { shortURL},
     {
       status: 200,
     }
