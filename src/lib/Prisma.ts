@@ -1,9 +1,9 @@
 import { PrismaClient } from "@prisma/client";
 
 export class Prisma {
-  instance : PrismaClient | null = null;
+  static instance : PrismaClient | null = null;
 
-  getInstance(): PrismaClient {
+  static getInstance(): PrismaClient {
     if (this.instance === null) {
       this.instance = new PrismaClient();
     }

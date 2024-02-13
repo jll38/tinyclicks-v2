@@ -5,7 +5,9 @@ export class Shortener {
   static shorten(url: string) {
     const base62URL = this.encodeBase62(this.hashURL(url));
     const shortenedURL = base62URL.slice(0, 7);
-    return shortenedURL;
+    //ENV_DOMAIN | On dev branch this will be localhost, on production this will be Tinyclicks.co
+    return process.env.NEXT_PUBLIC_ENV_DOMAIN + shortenedURL; 
+    
   }
 
   protected static hashURL(url: string) {
