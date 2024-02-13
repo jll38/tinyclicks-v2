@@ -7,7 +7,7 @@ export async function POST(req: NextRequest) {
   const { userID, originalURL, locked } = await req.json();
 
   const shortURL = await ensureUnique(Shortener.shorten(originalURL));
-
+  console.log(shortURL);
   if (await createUrlRecord(userID, originalURL, shortURL, locked))
     return NextResponse.json(
       { shortURL },
@@ -70,7 +70,6 @@ async function doesExist(shortURL: string): Promise<boolean> {
       shortURL,
     },
   });
-  console.log(record);
   if (record === null) return false;
   return true;
 }
