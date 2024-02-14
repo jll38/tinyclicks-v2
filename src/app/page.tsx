@@ -1,16 +1,18 @@
 import Image from "next/image";
 import Shortener from "@/components/Shortener/Shortener";
 import { Title, Text, Flex } from "@mantine/core";
+
 export default function Home() {
   return (
     <main>
       <section style={{ height: "650px" }}>
         <Flex
-          style={{ height: "100%", border: "1px solid"}}
-          justify="space-around"
-          align="center"
-          direction="row"
+          style={{ height: "100%", border: "1px solid" }}
+          justify={{ md: "space-around", base: "center" }}
+          align={"center"}
+          direction={{ md: "row", base: "column" }}
           wrap="wrap"
+          gap={{md: "0", base: "5%"}}
         >
           <div>
             <Text>Welcome to</Text>
