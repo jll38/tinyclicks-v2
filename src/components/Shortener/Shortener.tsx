@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import Link from "next/link";
-import { Box, Button, TextInput, rem, Text } from "@mantine/core";
+import { Box, Button, TextInput, rem, Text, Paper} from "@mantine/core";
 
 import { notifications } from "@mantine/notifications";
 
@@ -14,7 +14,18 @@ export default function Shortener() {
   const [retrievedURL, setRetrievedURL] = React.useState<string>("");
 
   return (
-    <div style={{ maxWidth: 400, position: "relative" }}>
+    <Paper
+    shadow={"md"}
+    radius="10px"
+      style={{
+        maxWidth: 400,
+        position: "relative",
+    
+        padding: "10px 15px",
+        margin: 15
+      }}
+      
+    >
       <TextInput
         label="Try it out!"
         leftSection={<div style={{ fontSize: 12 }}>https://</div>}
@@ -68,6 +79,6 @@ export default function Shortener() {
           Your Shortened Link is: {retrievedURL}
         </Link>
       )}
-    </div>
+    </Paper>
   );
 }
