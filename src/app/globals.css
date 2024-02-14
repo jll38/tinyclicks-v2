@@ -2,6 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
+:root[data-theme="light"] {
+  --text: #081515;
+  --background: #f1f9fa;
+  --primary: #47b1ba;
+  --secondary: #95b8d7;
+  --accent: #7995cd;
+}
+:root[data-theme="dark"] {
+  --text: #e9f7f7;
+  --background: #050e0f;
+  --primary: #46afb9;
+  --secondary: #294c6b;
+  --accent: #324e86;
+}
+
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
@@ -9,17 +24,11 @@
 }
 
 @media (prefers-color-scheme: dark) {
-
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  color: rgb(var(--text));
+  background: rgb(var(--background));
 }
 
 @layer utilities {
@@ -29,5 +38,5 @@ body {
 }
 
 main section {
-  padding: 0 20px
+  padding: 0 20px;
 }
