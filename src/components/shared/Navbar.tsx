@@ -14,10 +14,11 @@ export default function Navbar() {
     <nav
       style={{
         display: "flex",
-        height: "50px",
+        height: "65px",
         justifyContent: "space-between",
         alignItems: "center",
         padding: "0px 20px",
+        borderBottom: "2px #64A0FF solid"
       }}
     >
       <Text id="nav-left" fw={600}>

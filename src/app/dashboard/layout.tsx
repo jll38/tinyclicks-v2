@@ -7,8 +7,7 @@ import { createTheme, MantineProvider, Flex, NavLink } from "@mantine/core";
 import { ColorSchemeScript } from "@mantine/core";
 import { Notifications } from "@mantine/notifications";
 
-import SideNav from "@/components/shared/dashboard/SideNav/SideNav";
-
+import { NavbarMinimal as SideNav } from "@/components/shared/dashboard/SideNav/SideNav";
 const theme = createTheme({
   /** Put your mantine theme override here */
 });
@@ -25,7 +24,7 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <Flex style={{ margin: 0, height: "85vh" }}>
+    <Flex>
       <SideNav />
       <main>
         <section>Test</section>
