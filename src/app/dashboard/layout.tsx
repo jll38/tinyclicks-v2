@@ -27,7 +27,7 @@ export default function DashboardLayout({
     <Flex>
       <SideNav />
       <main>
-        <section>Test</section>
+        {children}
       </main>
     </Flex>
   );
