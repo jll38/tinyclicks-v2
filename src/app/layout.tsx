@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css";
 import "@mantine/core/styles.css";
 
 import { createTheme, MantineProvider } from "@mantine/core";
@@ -31,7 +30,7 @@ export default function RootLayout({
         <ColorSchemeScript />
       </head>
       <MantineProvider theme={theme}>
-        <body className={inter.className}>
+        <body className={inter.className} style={{background : "#F7F9FB"}}>
           <Notifications />
           <Navbar />
           {children}
