@@ -8,6 +8,8 @@ import { ColorSchemeScript } from "@mantine/core";
 import { Notifications } from "@mantine/notifications";
 
 import Navbar from "@/components/shared/Navbar";
+import { Footer } from "@/components/shared/footer/Footer"
+
 const theme = createTheme({
   /** Put your mantine theme override here */
 });
@@ -34,6 +36,7 @@ export default function RootLayout({
           <Notifications />
           <Navbar />
           {children}
+          <Footer/>
         </body>
       </MantineProvider>
     </html>
