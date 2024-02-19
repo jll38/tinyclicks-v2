@@ -5,6 +5,8 @@ import { Hasher } from "@/lib/authHandlers";
 export async function POST(req: NextRequest) {
   try {
     const { email, password } = await req.json();
+    if(!email) return NextResponse.json({ message: "Missing required field: Email"}, {status: 400})
+    if(!password) return NextResponse.json({ message: "Missing required field: Password"}, {status: 400})
     await authenticateUser(email, password);
 
     //On Successful Authentication, do ____
