@@ -1,5 +1,5 @@
 export class Hasher {
-  static async hashPassword(password: string, salt?: string): Promise<string> {
+  static async hashPassword(password: string, salt?: any): Promise<string> {
     if (!salt) salt = await this.generateSalt();
     const bcrypt = require("bcrypt");
 
