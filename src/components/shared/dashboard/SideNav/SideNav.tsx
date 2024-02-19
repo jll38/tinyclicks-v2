@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Center, Tooltip, UnstyledButton, Stack, rem } from "@mantine/core";
 import {
   IconHome2,
@@ -15,14 +15,24 @@ import {
 
 import classes from "./SideNav.module.scss";
 
+import { useRouter } from "next/router";
+import { navigate } from "@/lib/navigate";
+
 interface NavbarLinkProps {
   icon: typeof IconHome2;
   label: string;
   active?: boolean;
   onClick?(): void;
+  route: string;
 }
 
-function NavbarLink({ icon: Icon, label, active, onClick }: NavbarLinkProps) {
+function NavbarLink({
+  icon: Icon,
+  label,
+  active,
+  onClick,
+  route,
+}: NavbarLinkProps) {
   return (
     <Tooltip label={label} position="right" transitionProps={{ duration: 0 }}>
       <UnstyledButton
@@ -37,22 +47,26 @@ function NavbarLink({ icon: Icon, label, active, onClick }: NavbarLinkProps) {
 }
 
 const mockdata = [
-  { icon: IconHome2, label: "Home" },
-  { icon: IconDeviceDesktopAnalytics, label: "Analytics" },
-  { icon: IconGlobe, label: "Geolocation" },
-  { icon: IconUser, label: "Account" },
-  { icon: IconSettings, label: "Settings" },
+  { icon: IconHome2, label: "Home", route: "/dashboard" },
+  { icon: IconDeviceDesktopAnalytics, label: "Analytics", route: "/dashboard/analytics" },
+  { icon: IconGlobe, label: "Geolocation", route: "/dashboard/geography" },
+  { icon: IconUser, label: "Account", route: "/dashboard/account" },
+  { icon: IconSettings, label: "Settings", route: "/dashboard/settings" },
 ];
 
 export function NavbarMinimal() {
-  const [active, setActive] = useState(2);
+  const [active, setActive] = useState(0);
 
   const links = mockdata.map((link, index) => (
     <NavbarLink
       {...link}
       key={link.label}
       active={index === active}
-      onClick={() => setActive(index)}
+      route={link.route}
+      onClick={() => {
+        setActive(index);
+        navigate(link.route);
+      }}
     />
   ));
 
