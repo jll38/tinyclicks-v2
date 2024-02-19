@@ -1,22 +1,32 @@
 import { Prisma } from "@/lib/Prisma";
 import { NextResponse, NextRequest } from "next/server";
-
 import { Hasher } from "@/lib/authHandlers";
 
 export async function POST(req: NextRequest) {
-  const { email, password } = await req.json();
-  const hashedPassword = await Hasher.hashPassword(password, "test");
-  if (true)
-    return NextResponse.json(
-      { email, hashedPassword },
-      {
-        status: 200,
-      }
-    );
-  return NextResponse.json(
-    { message: "Error! Please try again later" },
-    {
-      status: 400,
-    }
-  );
+  try {
+    const { email, password } = await req.json();
+    await authenticateUser(email, password);
+
+    //On Successful Authentication, do ____
+
+    return NextResponse.json({ message: "Authentication successful" }, { status: 200 });
+  } catch (error : any) {
+    return NextResponse.json({ message: error.message }, { status: error.status || 500 });
+  }
+}
+
+async function authenticateUser(email: string, password: string): Promise<void> {
+  const user = await Prisma.getInstance().user.findUnique({
+    where: { email: email },
+  });
+
+  if (!user) {
+    throw { message: "User not found!", status: 404 }; 
+  }
+
+  const isPasswordValid = (await Hasher.hashPassword(password, user.salt)) === user.password;
+
+  if (!isPasswordValid) {
+    throw { message: "Invalid credentials!", status: 401 };
+  }
 }
