@@ -27,8 +27,14 @@ export default function LoginForm() {
     },
   });
 
-  function handleSubmit(credentials: LoginFormValues) {
-    console.log(credentials);
+  async function handleSubmit(credentials: LoginFormValues) {
+    const response = await fetch("/api/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(credentials),
+    })
+      .then((response) => response.json())
+      .then((data) => console.log(data));
   }
 
   interface LoginFormValues {
