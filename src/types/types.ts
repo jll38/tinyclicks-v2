@@ -1,11 +1,25 @@
-export class Traffic {
-  ip_address: string;
-  ip_type: string;
-  location: Location;
-  device: string;
-  browser: string;
+// Assuming this is in /types/types.ts
 
-  constructor(
+export interface ILocation {
+  city: string;
+  region_name: string;
+  region_code: string;
+  country_name: string;
+  country_code: string;
+  continent_name: string;
+  continent_code: string;
+  zip_code: string;
+  coordinates: Coordinate;
+}
+
+export class Traffic {
+  readonly ip_address: string;
+  readonly ip_type: string;
+  readonly location: Location;
+  readonly device: string;
+  readonly browser: string;
+
+  private constructor(
     ip_address: string,
     ip_type: string,
     location: Location,
@@ -19,38 +33,39 @@ export class Traffic {
     this.device = device;
   }
 
-  //Factory Method
+  // Factory Method
   static create(
     ip_address: string,
     ip_type: string,
     location: Location,
     device: string,
     browser: string
-  ) {
+  ): Traffic {
     return new Traffic(ip_address, ip_type, location, device, browser);
   }
 }
 
 export class Coordinate {
-  latitude: number;
-  longitude: number;
+  readonly latitude: number;
+  readonly longitude: number;
 
   constructor(longitude: number, latitude: number) {
     this.longitude = longitude;
     this.latitude = latitude;
   }
+
 }
 
-export class Location {
-  city: string;
-  region_name: string;
-  region_code: string;
-  country_name: string;
-  country_code: string;
-  continent_name: string;
-  continent_code: string;
-  zip_code: string;
-  coordinates: Coordinate;
+export class Location implements ILocation {
+  readonly city: string;
+  readonly region_name: string;
+  readonly region_code: string;
+  readonly country_name: string;
+  readonly country_code: string;
+  readonly continent_name: string;
+  readonly continent_code: string;
+  readonly zip_code: string;
+  readonly coordinates: Coordinate;
 
   constructor(
     city: string,
@@ -79,7 +94,7 @@ export class Location {
   }
 
   toString(): string {
-    return `${this.city}, ${this.region_name}, ${this.region_name}, ${this.country_code}`;
+    return `${this.city}, ${this.region_name}, ${this.country_name}, ${this.country_code}`;
   }
 }
 
