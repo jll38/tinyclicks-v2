@@ -32,7 +32,7 @@ export default function RootLayout({
           <ColorSchemeScript />
         </head>
         <MantineProvider theme={theme}>
-          <body className={inter.className} style={{ background: "#F7F9FB" }}>
+          <body className={inter.className} style={{ background: "#F7F9FB", minHeight: "100vh", }}>
             <Notifications />
             <Navbar />
             {children}
