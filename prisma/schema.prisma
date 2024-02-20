@@ -60,11 +60,12 @@ model User {
   links         Link[] // One-to-Many relation with Link
   premium       Boolean       @default(false)
   role          Role          @default(USER)
-  password      String
-  salt          String
+  password      String?
+  salt          String?
   DailyClicks   DailyClicks[]
   collections   Collection[] // One-to-Many relation with Collection
   createdAt     DateTime?     @default(now())
+  provider      Provider?
 }
 
 model Traffic {
@@ -81,4 +82,10 @@ model Traffic {
 enum Role {
   USER
   ADMIN
+}
+
+enum Provider {
+  CREDENTIALS
+  GITHUB
+  GOOGLE
 }

@@ -86,13 +86,15 @@ export class Location {
 import { User as NextAuthUser } from "next-auth";
 
 export class User implements NextAuthUser {
-  id: string; // Adding the missing id property
+  id: string;
   name: string;
   email: string;
+  image?: string
 
-  constructor(name: string, email: string, id: string) {
+  constructor(name: string, email: string, id: string, image?: string) {
     this.name = name;
     this.email = email;
-    this.id = id; // Initialize the id property
+    this.id = id;
+    this.image = image;
   }
 }

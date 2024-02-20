@@ -23,7 +23,6 @@ export async function GET(req: NextRequest) {
       break;
   }
 
-  console.log(data);
   return NextResponse.json(
     { data },
     {

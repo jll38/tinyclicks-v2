@@ -49,6 +49,7 @@ async function createUser(
         email,
         password: hashedPassword,
         salt,
+        provider: "CREDENTIALS",
       },
     });
   } catch (error) {

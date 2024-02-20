@@ -23,7 +23,7 @@ import { navigate } from "@/lib/navigate";
 
 export default function Navbar() {
   const { data: session } = useSession();
-
+  
   const [sessionLoading, setSessionLoading] = React.useState<boolean>(true);
 
   React.useEffect(() => {
