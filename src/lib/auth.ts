@@ -15,6 +15,7 @@ import { navigate } from "./navigate";
 import { useSession } from "next-auth/react";
 
 export const authConfig: NextAuthOptions = {
+  secret: process.env.NEXT_AUTH_SECRET,
   providers: [
     Credentials({
       name: "Sign In",
@@ -56,16 +57,5 @@ export const authConfig: NextAuthOptions = {
       clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
     }),
   ],
+  session: { strategy: "jwt" },
 };
-
-export async function loginRequiredServer() {
-  const session = await getServerSession(authConfig);
-  if (!session) return navigate("/login");
-}
-
-export async function loginRequiredClient() {
-  if (typeof window !== "undefined") {
-    const session = useSession();
-    if (!session) navigate("/login");
-  }
-}

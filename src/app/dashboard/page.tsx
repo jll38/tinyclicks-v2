@@ -5,8 +5,8 @@ import TodaysClicks from "@/components/dashboard/TodaysClicks/TodaysClicks";
 import WeeksClicks from "@/components/dashboard/WeeksClicks/WeeksClicks";
 import { Container, Grid, SimpleGrid, Skeleton, rem } from "@mantine/core";
 import DailyClicks from "@/components/dashboard/DailyClicks/DailyClicks";
+export default async function Dashboard() {
 
-export default function Dashboard() {
   return (
     <main style={{ width: "90vw", padding: 20 }}>
       <LeadGrid

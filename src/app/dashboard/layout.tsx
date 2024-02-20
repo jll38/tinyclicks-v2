@@ -7,31 +7,25 @@ import { createTheme, MantineProvider, Flex, NavLink } from "@mantine/core";
 import { ColorSchemeScript } from "@mantine/core";
 import { Notifications } from "@mantine/notifications";
 
-import { loginRequiredServer } from "@/lib/auth";
-
 import { NavbarMinimal as SideNav } from "@/components/shared/dashboard/SideNav/SideNav";
+import { getServerSession } from "next-auth";
+import { authConfig } from "@/lib/auth";
+import { navigate } from "@/lib/navigate";
 const theme = createTheme({
   /** Put your mantine theme override here */
 });
 const inter = Inter({ subsets: ["latin"] });
-
-export const metadata: Metadata = {
-  title: "Dashboard",
-  description: "Welcome to the TinyClicks Dashboard!",
-};
 
 export default async function DashboardLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  await loginRequiredServer();
+ 
   return (
     <Flex>
       <SideNav />
-      <main>
-        {children}
-      </main>
+      <main>{children}</main>
     </Flex>
   );
 }
