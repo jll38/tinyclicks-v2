@@ -1,3 +1,4 @@
+
 export class Hasher {
   static async hashPassword(password: string, salt?: any): Promise<string> {
     if (!salt) salt = await this.generateSalt();
@@ -12,3 +13,7 @@ export class Hasher {
     return await bcrypt.genSalt(saltRounds);
   }
 }
+
+
+
+

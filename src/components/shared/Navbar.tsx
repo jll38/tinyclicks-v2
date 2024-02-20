@@ -4,9 +4,13 @@ import Link from "next/link";
 import { NavLink, Text, Button, Flex, Image, Tooltip } from "@mantine/core";
 import { ActionIcon } from "@mantine/core";
 
+import { useSession, signIn, signOut } from "next-auth/react";
+
 import { navigate } from "@/lib/navigate";
 
 export default function Navbar() {
+  const { data: session } = useSession();
+
   const navLinks = [
     {
       label: "Login",
@@ -37,20 +41,50 @@ export default function Navbar() {
       </Button>
 
       <Flex id="nav-right" gap={"20"} align="center">
-        <Button
-          component="a"
-          variant="light"
-          onClick={() => {
-            navigate("/login");
-          }}
-        >
-          Login
-        </Button>
-        <Button component="a" variant="filled"  onClick={() => {
-            navigate("/register");
-          }}>
-          Sign Up
-        </Button>
+        {session ? (
+          <>
+          <div>Session</div>
+          <Button
+              component="a"
+              variant="transparent"
+              onClick={() => {
+                navigate("/dashboard");
+              }}
+            >
+              Dashboard
+            </Button>
+            <Button
+              component="a"
+              variant="transparent"
+              onClick={() => {
+                signOut();
+              }}
+            >
+              Sign Out
+            </Button>
+          </>
+        ) : (
+          <>
+            <Button
+              component="a"
+              variant="light"
+              onClick={() => {
+                navigate("/login");
+              }}
+            >
+              Login
+            </Button>
+            <Button
+              component="a"
+              variant="filled"
+              onClick={() => {
+                navigate("/register");
+              }}
+            >
+              Sign Up
+            </Button>
+          </>
+        )}
         <Tooltip label="Portfolio">
           <ActionIcon
             variant={"filled"}

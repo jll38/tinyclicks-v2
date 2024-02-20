@@ -9,6 +9,8 @@ import { Notifications } from "@mantine/notifications";
 import Navbar from "@/components/shared/Navbar";
 import { Footer } from "@/components/shared/footer/Footer";
 
+import SessionWrapper from "./providers/SessionWrapper";
+
 const theme = createTheme({
   /** Put your mantine theme override here */
 });
@@ -25,18 +27,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <head>
-        <ColorSchemeScript />
-      </head>
-      <MantineProvider theme={theme}>
-        <body className={inter.className} style={{background : "#F7F9FB"}}>
-          <Notifications />
-          <Navbar />
-          {children}
-          <Footer />
-        </body>
-      </MantineProvider>
-    </html>
+    <SessionWrapper>
+      <html lang="en">
+        <head>
+          <ColorSchemeScript />
+        </head>
+        <MantineProvider theme={theme}>
+          <body className={inter.className} style={{ background: "#F7F9FB" }}>
+            <Notifications />
+            <Navbar />
+            {children}
+            <Footer />
+          </body>
+        </MantineProvider>
+      </html>
+    </SessionWrapper>
   );
 }

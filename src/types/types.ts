@@ -83,11 +83,16 @@ export class Location {
   }
 }
 
-export class User{
-  readonly username: string;
+import { User as NextAuthUser } from "next-auth";
 
-  constructor(username: string){
-    this.username = username;
+export class User implements NextAuthUser {
+  id: string; // Adding the missing id property
+  name: string;
+  email: string;
+
+  constructor(name: string, email: string, id: string) {
+    this.name = name;
+    this.email = email;
+    this.id = id; // Initialize the id property
   }
-
 }

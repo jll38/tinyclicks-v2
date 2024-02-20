@@ -14,6 +14,8 @@ import {
 
 import { useForm } from "@mantine/form";
 
+import { signIn } from "next-auth/react";
+
 import { navigate } from "@/lib/navigate";
 
 export default function LoginForm() {
@@ -30,14 +32,17 @@ export default function LoginForm() {
   });
 
   async function handleSubmit(credentials: LoginFormValues) {
-    const response = await fetch("/api/auth/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(credentials),
-    }).then((response) => {
-      if (response.status === 200) console.log("OK");
-      console.log(response.json());
-    });
+    const logInResponse = await signIn("credentials", {
+      email: credentials.email,
+      password: credentials.password,
+      redirect: false,
+    })
+    
+    if(logInResponse && !logInResponse.error) {
+      navigate('/dashboard');
+    } else{
+      console.log("Error", logInResponse)
+    }
   }
 
   interface LoginFormValues {
