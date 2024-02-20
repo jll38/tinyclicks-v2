@@ -25,7 +25,14 @@ class Redirector {
     const referrer = document.referrer;
 
     try {
-      const data = await this.fetchData(slug, ip, referrer, userAgent.browser, userAgent.device);
+      const data = await this.fetchData(
+        slug,
+        ip,
+        referrer,
+        userAgent.browser,
+        userAgent.device
+      );
+      console.log(data);
       window.location.assign(data.url);
     } catch (error) {
       console.error("Redirect Error:", error);
@@ -33,10 +40,26 @@ class Redirector {
     }
   }
 
-  private async fetchData(slug: string, ip: string, referrer: string, browser: string, device: string): Promise<IFetchData> {
-    const response = await fetch(
-      `/api/match-url?slug=${slug}&ip=${ip}&source=${referrer}&browser=${browser}&device=${device}`
-    );
+  private async fetchData(
+    slug: string,
+    ip: string,
+    referrer: string,
+    browser: string,
+    device: string
+  ): Promise<IFetchData> {
+    const response = await fetch(`/api/url/match/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        slug,
+        ip,
+        referrer,
+        browser,
+        device,
+      })
+    });
     if (!response.ok) throw new Error(response.statusText);
     return await response.json();
   }
@@ -48,7 +71,5 @@ export default function Redirect({ params }: { params: IParams }) {
     redirector.redirectToMatchedUrl();
   }, [params.slug]);
 
-  return (
-    <div></div>
-  );
+  return <div></div>;
 }
