@@ -22,7 +22,9 @@ export default function TopPerformers() {
 
   return (
     <>
-      {!data && <Skeleton height={250} animate={true} miw={200} radius={20} />}
+      {!data && (
+        <Skeleton height={"100%"} animate={true} miw={200} radius={20} />
+      )}
       {data && (
         <Paper radius={20} shadow={"sm"} style={{ padding: 10 }}>
           <Title order={3}>Top Performers</Title>

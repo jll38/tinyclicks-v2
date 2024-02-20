@@ -23,12 +23,12 @@ export default function TodaysClicks() {
 
   return (
     <>
-    {!data && <Skeleton w={"100%"} h={"100%"} radius={20}/>}
+    {!data && <Skeleton w={"100%"} h={"105px"} radius={20}/>}
       {data && (
         <Paper
           style={{
             width: "100%",
-            height: "100%",
+            height: "105px",
             padding: 5,
             display: "grid",
             placeItems: "center",
@@ -38,11 +38,11 @@ export default function TodaysClicks() {
           bg={"cyan.3"}
         >
           <div>
-            <Title order={3} ta="center" c={"gray.1"} size="26px">
-              Today's Clicks
+            <Title order={3} ta="center" c={"gray.1"} size="22px">
+              Today
             </Title>
             <Text ta="center" fw={800} c={"gray.1"} size="36px">
-              {data.todaysClicks}
+              {data.todaysClicks} Clicks
             </Text>
             <Text ta="center" fw={600} c={"gray.3"}>
               0 Yesterday
