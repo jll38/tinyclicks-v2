@@ -11,6 +11,14 @@ import { navigate } from "@/lib/navigate";
 export default function Navbar() {
   const { data: session } = useSession();
 
+  const [sessionLoading, setSessionLoading] = React.useState<boolean>(true);
+
+  React.useEffect(() => {
+    if (session !== undefined) {
+      setSessionLoading(false);
+    }
+  }, [session]);
+
   const navLinks = [
     {
       label: "Login",
@@ -28,7 +36,7 @@ export default function Navbar() {
         borderBottom: "2px #64A0FF solid",
       }}
     >
-      <Button
+      {!sessionLoading && <><Button
         variant={"transparent"}
         c="black"
         onClick={() => {
@@ -43,8 +51,8 @@ export default function Navbar() {
       <Flex id="nav-right" gap={"20"} align="center">
         {session ? (
           <>
-          <div>Session</div>
-          <Button
+            <div>Session</div>
+            <Button
               component="a"
               variant="transparent"
               onClick={() => {
@@ -100,6 +108,7 @@ export default function Navbar() {
           </ActionIcon>
         </Tooltip>
       </Flex>
+      </>}
     </nav>
   );
 }

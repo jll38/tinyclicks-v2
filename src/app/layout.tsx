@@ -10,7 +10,6 @@ import Navbar from "@/components/shared/Navbar";
 import { Footer } from "@/components/shared/footer/Footer";
 
 import SessionWrapper from "./providers/SessionWrapper";
-
 const theme = createTheme({
   /** Put your mantine theme override here */
 });
