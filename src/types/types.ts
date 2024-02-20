@@ -82,3 +82,12 @@ export class Location {
     return `${this.city}, ${this.region_name}, ${this.region_name}, ${this.country_code}`;
   }
 }
+
+export class User{
+  readonly username: string;
+
+  constructor(username: string){
+    this.username = username;
+  }
+
+}

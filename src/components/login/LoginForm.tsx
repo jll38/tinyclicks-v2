@@ -14,6 +14,8 @@ import {
 
 import { useForm } from "@mantine/form";
 
+import { navigate } from "@/lib/navigate";
+
 export default function LoginForm() {
   const otherAuth = false;
   const loginForm = useForm({
@@ -32,9 +34,10 @@ export default function LoginForm() {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(credentials),
-    })
-      .then((response) => response.json())
-      .then((data) => console.log(data));
+    }).then((response) => {
+      if (response.status === 200) console.log("OK");
+      console.log(response.json());
+    });
   }
 
   interface LoginFormValues {
