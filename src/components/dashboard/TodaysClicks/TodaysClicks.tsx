@@ -2,13 +2,15 @@ import { Paper, Title, Text, Skeleton } from "@mantine/core";
 import React from "react";
 
 import { TIME_ZONE } from "@/lib/constants";
-
+import { useSession } from "next-auth/react";
 export default function TodaysClicks() {
   const [data, setData] = React.useState<any>(null);
+  const { data: session } = useSession();
 
   React.useEffect(() => {
+   if(session !== undefined){
     fetch(
-      `api/dashboard?usr=65c3fd2b7b44e07ada89f6ba&operation=todays-clicks&timeZone=${TIME_ZONE}`,
+      `api/dashboard?usr=${session!.user!.id}&operation=todays-clicks&timeZone=${TIME_ZONE}`,
       {
         method: "GET",
         headers: { "Content-Type": "application/json" },
@@ -19,7 +21,8 @@ export default function TodaysClicks() {
         console.log(responseData);
         setData(responseData.data);
       });
-  }, []);
+   }
+  }, [session]);
 
   return (
     <>
