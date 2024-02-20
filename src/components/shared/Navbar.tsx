@@ -51,7 +51,7 @@ export default function Navbar() {
       <Flex id="nav-right" gap={"20"} align="center">
         {session ? (
           <>
-            <div>Session</div>
+            <div>{session?.user?.name}</div>
             <Button
               component="a"
               variant="transparent"
