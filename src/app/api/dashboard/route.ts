@@ -6,9 +6,6 @@ export async function GET(req: NextRequest) {
   const operation = req.nextUrl.searchParams.get("operation");
   const timeZone = req.nextUrl.searchParams.get("timeZone");
 
-  console.log(operation);
-  if (userId?.length === 0) userId = null;
-
   let data;
 
   switch (operation) {

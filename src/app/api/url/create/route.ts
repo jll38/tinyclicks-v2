@@ -70,6 +70,5 @@ async function doesExist(shortURL: string): Promise<boolean> {
       shortURL,
     },
   });
-  if (record === null) return false;
-  return true;
+  return record !== null;
 }
