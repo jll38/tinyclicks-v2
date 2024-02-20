@@ -3,9 +3,6 @@ interface IUserAgent {
   device: string;
 }
 
-interface IFetchData {
-  url: string;
-}
 
 // Abstracts the logic to detect the user agent
 export class UserAgentDetector {
@@ -17,7 +14,7 @@ export class UserAgentDetector {
     };
   }
 
-  private static detectBrowser(userAgent: string): string {
+  static detectBrowser(userAgent: string): string {
     const browsers = [
       { name: "Firefox", rule: /Firefox/ },
       { name: "Samsung Browser", rule: /SamsungBrowser/ },
@@ -35,7 +32,7 @@ export class UserAgentDetector {
     );
   }
 
-  private static detectDevice(userAgent: string): string {
+   static detectDevice(userAgent: string): string {
     const devices = [
       { name: "iPhone", rule: /iPhone/ },
       { name: "iPad", rule: /iPad/ },

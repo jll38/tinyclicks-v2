@@ -3,10 +3,14 @@ import React, { useEffect } from "react";
 import redirect from "next/navigation";
 
 import { UserAgentDetector, ClientIpFetcher } from "@/lib/clientInfoGrabber";
+
 interface IParams {
   slug: string;
 }
 
+interface IFetchData {
+  url: string;
+}
 class Redirector {
   params: IParams;
 

@@ -5,3 +5,4 @@ it('should handle network errors, and return "unknown" as a string', async () =>
         const ip = await ClientIpFetcher.fetch();
         expect(ip).toBe('unknown');
       });
+
