@@ -1,10 +1,23 @@
 "use client";
 import React from "react";
 import Link from "next/link";
-import { NavLink, Text, Button, Flex, Image, Tooltip } from "@mantine/core";
+import {
+  NavLink,
+  Text,
+  Button,
+  Flex,
+  Image,
+  Tooltip,
+  Menu,
+} from "@mantine/core";
 import { ActionIcon } from "@mantine/core";
 
 import { useSession, signIn, signOut } from "next-auth/react";
+
+import { FaUser } from "react-icons/fa";
+import { MdDashboard } from "react-icons/md";
+import { PiSignOutBold } from "react-icons/pi";
+
 
 import { navigate } from "@/lib/navigate";
 
@@ -36,79 +49,95 @@ export default function Navbar() {
         borderBottom: "2px #64A0FF solid",
       }}
     >
-      {!sessionLoading && <><Button
-        variant={"transparent"}
-        c="black"
-        onClick={() => {
-          navigate("/");
-        }}
-      >
-        <Text id="nav-left" fw={600}>
-          TinyClicks
-        </Text>
-      </Button>
-
-      <Flex id="nav-right" gap={"20"} align="center">
-        {session ? (
-          <>
-            <div>{session?.user?.name}</div>
-            <Button
-              component="a"
-              variant="transparent"
-              onClick={() => {
-                navigate("/dashboard");
-              }}
-            >
-              Dashboard
-            </Button>
-            <Button
-              component="a"
-              variant="transparent"
-              onClick={() => {
-                signOut();
-              }}
-            >
-              Sign Out
-            </Button>
-          </>
-        ) : (
-          <>
-            <Button
-              component="a"
-              variant="light"
-              onClick={() => {
-                navigate("/login");
-              }}
-            >
-              Login
-            </Button>
-            <Button
-              component="a"
-              variant="filled"
-              onClick={() => {
-                navigate("/register");
-              }}
-            >
-              Sign Up
-            </Button>
-          </>
-        )}
-        <Tooltip label="Portfolio">
-          <ActionIcon
-            variant={"filled"}
-            aria-label="Portfolio Modal"
-            component="a"
-            href="https://jlechner.com"
-            target={"_blank"}
+      {!sessionLoading && (
+        <>
+          <Button
+            variant={"transparent"}
+            c="black"
+            onClick={() => {
+              navigate("/");
+            }}
           >
-            <Image
-              src={"https://avatars.githubusercontent.com/u/97925400?v=4"}
-              fit="cover"
-            ></Image>
-          </ActionIcon>
-        </Tooltip>
-      </Flex>
-      </>}
+            <Text id="nav-left" fw={600}>
+              TinyClicks
+            </Text>
+          </Button>
+
+          <Flex id="nav-right" gap={"20"} align="center">
+            {session ? (
+              <>
+                <Menu
+                  transitionProps={{
+                    transition: "scale",
+                    duration: 150,
+                  }}
+                >
+                  <Menu.Target>
+                    <Button variant={"transparent"}>
+                      <FaUser size={"20px"} color="black" />
+                    </Button>
+                  </Menu.Target>
+                  <Menu.Dropdown>
+                  <Menu.Item component="a" href="/profile" disabled > 
+                      <Flex justify={"start"} align="center" gap={6}>
+                        <FaUser size={20}/>
+                        <div>Profile</div>
+                      </Flex>
+                    </Menu.Item>
+                    <Menu.Item component="a" href="/dashboard">
+                      <Flex justify={"start"} align="center" gap={6}>
+                        <MdDashboard size={20}/>
+                        Dashboard
+                      </Flex>
+                    </Menu.Item>
+                    <Menu.Item component="button" onClick={() => {signOut()}}>
+                      <Flex justify={"start"} align="center" gap={6}>
+                        <PiSignOutBold size={20} />
+                        Sign Out
+                      </Flex>
+                    </Menu.Item>
+                  </Menu.Dropdown>
+                </Menu>
+              </>
+            ) : (
+              <>
+                <Button
+                  component="a"
+                  variant="light"
+                  onClick={() => {
+                    navigate("/login");
+                  }}
+                >
+                  Login
+                </Button>
+                <Button
+                  component="a"
+                  variant="filled"
+                  onClick={() => {
+                    navigate("/register");
+                  }}
+                >
+                  Sign Up
+                </Button>
+              </>
+            )}
+            <Tooltip label="Portfolio">
+              <ActionIcon
+                variant={"filled"}
+                aria-label="Portfolio Modal"
+                component="a"
+                href="https://jlechner.com"
+                target={"_blank"}
+              >
+                <Image
+                  src={"https://avatars.githubusercontent.com/u/97925400?v=4"}
+                  fit="cover"
+                ></Image>
+              </ActionIcon>
+            </Tooltip>
+          </Flex>
+        </>
+      )}
     </nav>
   );
 }
