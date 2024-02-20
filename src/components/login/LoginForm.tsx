@@ -18,6 +18,10 @@ import { signIn } from "next-auth/react";
 
 import { navigate } from "@/lib/navigate";
 
+import { GithubIcon } from "@mantinex/dev-icons";
+
+import classes from "./SocialButtons.module.scss";
+
 export default function LoginForm() {
   const otherAuth = false;
   const loginForm = useForm({
@@ -36,12 +40,12 @@ export default function LoginForm() {
       email: credentials.email,
       password: credentials.password,
       redirect: false,
-    })
-    
-    if(logInResponse && !logInResponse.error) {
-      navigate('/dashboard');
-    } else{
-      console.log("Error", logInResponse)
+    });
+
+    if (logInResponse && !logInResponse.error) {
+      navigate("/dashboard");
+    } else {
+      console.log("Error", logInResponse);
     }
   }
 
@@ -85,15 +89,23 @@ export default function LoginForm() {
           </Button>
         </Group>
       </form>
-      {otherAuth && (
-        <>
-          <Divider label="or" labelPosition="center"></Divider>
 
-          <Text ta={"center"} fw={500} c="dimmed">
-            Login With
-          </Text>
-        </>
-      )}
+      <Divider label="or" labelPosition="center"></Divider>
+
+      <Text ta={"center"} fw={500} c="dimmed">
+        Login With
+      </Text>
+      <Flex justify={"center"}>
+        <Button
+          leftSection={<GithubIcon style={{ width: "1rem", height: "1rem" }} />}
+          bg={"#181a2c"}
+          onClick={() => {
+            signIn("github", { callbackUrl: '/dashboard' })
+          }}
+        >
+          Github
+        </Button>
+      </Flex>
     </Box>
   );
 }

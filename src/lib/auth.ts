@@ -8,6 +8,7 @@ import { User } from "@/types/types";
 import { Hasher } from "./authHandlers";
 
 import { Prisma } from "./Prisma";
+import { redirect } from 'next/navigation';
 
 export const authConfig: NextAuthOptions = {
   providers: [
@@ -46,5 +47,9 @@ export const authConfig: NextAuthOptions = {
         return null;
       },
     }),
+    GithubProvider({
+        clientId: process.env.GITHUB_ID as string,
+        clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
+    })
   ],
 };

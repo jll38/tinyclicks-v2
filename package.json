@@ -17,6 +17,7 @@
     "@mantine/form": "^7.5.3",
     "@mantine/hooks": "^7.5.2",
     "@mantine/notifications": "^7.5.2",
+    "@mantinex/dev-icons": "^1.0.2",
     "@prisma/client": "^5.9.1",
     "@tabler/icons-react": "^2.47.0",
     "@types/jest": "^29.5.12",
