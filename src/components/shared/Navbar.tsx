@@ -10,7 +10,7 @@ import {
   Tooltip,
   Menu,
 } from "@mantine/core";
-import { ActionIcon } from "@mantine/core";
+import { ActionIcon, Skeleton } from "@mantine/core";
 
 import { useSession, signIn, signOut } from "next-auth/react";
 
@@ -18,12 +18,11 @@ import { FaUser } from "react-icons/fa";
 import { MdDashboard } from "react-icons/md";
 import { PiSignOutBold } from "react-icons/pi";
 
-
 import { navigate } from "@/lib/navigate";
 
 export default function Navbar() {
   const { data: session } = useSession();
-  
+
   const [sessionLoading, setSessionLoading] = React.useState<boolean>(true);
 
   React.useEffect(() => {
@@ -49,55 +48,65 @@ export default function Navbar() {
         borderBottom: "2px #64A0FF solid",
       }}
     >
-      {!sessionLoading && (
-        <>
-          <Button
-            variant={"transparent"}
-            c="black"
-            onClick={() => {
-              navigate("/");
-            }}
-          >
-            <Text id="nav-left" fw={600}>
-              TinyClicks
-            </Text>
-          </Button>
+      <Button
+        variant={"transparent"}
+        c="black"
+        onClick={() => {
+          navigate("/");
+        }}
+      >
+        <Text id="nav-left" fw={600}>
+          TinyClicks
+        </Text>
+      </Button>
 
-          <Flex id="nav-right" gap={"20"} align="center">
-            {session ? (
-              <>
-                <Menu
-                  transitionProps={{
-                    transition: "scale",
-                    duration: 150,
+      <Flex id="nav-right" gap={"20"} align="center">
+        {session ? (
+          <>
+            <Menu
+              transitionProps={{
+                transition: "scale",
+                duration: 150,
+              }}
+            >
+              <Menu.Target>
+                <Button variant={"transparent"}>
+                  <FaUser size={"20px"} color="black" />
+                </Button>
+              </Menu.Target>
+              <Menu.Dropdown>
+                <Menu.Item component="a" href="/profile" disabled>
+                  <Flex justify={"start"} align="center" gap={6}>
+                    <FaUser size={20} />
+                    <div>Profile</div>
+                  </Flex>
+                </Menu.Item>
+                <Menu.Item component="a" href="/dashboard">
+                  <Flex justify={"start"} align="center" gap={6}>
+                    <MdDashboard size={20} />
+                    Dashboard
+                  </Flex>
+                </Menu.Item>
+                <Menu.Item
+                  component="button"
+                  onClick={() => {
+                    signOut();
                   }}
                 >
-                  <Menu.Target>
-                    <Button variant={"transparent"}>
-                      <FaUser size={"20px"} color="black" />
-                    </Button>
-                  </Menu.Target>
-                  <Menu.Dropdown>
-                  <Menu.Item component="a" href="/profile" disabled > 
-                      <Flex justify={"start"} align="center" gap={6}>
-                        <FaUser size={20}/>
-                        <div>Profile</div>
-                      </Flex>
-                    </Menu.Item>
-                    <Menu.Item component="a" href="/dashboard">
-                      <Flex justify={"start"} align="center" gap={6}>
-                        <MdDashboard size={20}/>
-                        Dashboard
-                      </Flex>
-                    </Menu.Item>
-                    <Menu.Item component="button" onClick={() => {signOut()}}>
-                      <Flex justify={"start"} align="center" gap={6}>
-                        <PiSignOutBold size={20} />
-                        Sign Out
-                      </Flex>
-                    </Menu.Item>
-                  </Menu.Dropdown>
-                </Menu>
+                  <Flex justify={"start"} align="center" gap={6}>
+                    <PiSignOutBold size={20} />
+                    Sign Out
+                  </Flex>
+                </Menu.Item>
+              </Menu.Dropdown>
+            </Menu>
+          </>
+        ) : (
+          <>
+            {sessionLoading ? (
+              <>
+                <Skeleton w={60} h={40}></Skeleton>
+                <Skeleton w={60} h={40}></Skeleton>
               </>
             ) : (
               <>
@@ -121,23 +130,27 @@ export default function Navbar() {
                 </Button>
               </>
             )}
-            <Tooltip label="Portfolio">
-              <ActionIcon
-                variant={"filled"}
-                aria-label="Portfolio Modal"
-                component="a"
-                href="https://jlechner.com"
-                target={"_blank"}
-              >
-                <Image
-                  src={"https://avatars.githubusercontent.com/u/97925400?v=4"}
-                  fit="cover"
-                ></Image>
-              </ActionIcon>
-            </Tooltip>
-          </Flex>
-        </>
-      )}
+          </>
+        )}
+        {sessionLoading ? (
+          <Skeleton w={30} h={30}></Skeleton>
+        ) : (
+          <Tooltip label="Portfolio">
+            <ActionIcon
+              variant={"filled"}
+              aria-label="Portfolio Modal"
+              component="a"
+              href="https://jlechner.com"
+              target={"_blank"}
+            >
+              <Image
+                src={"https://avatars.githubusercontent.com/u/97925400?v=4"}
+                fit="cover"
+              ></Image>
+            </ActionIcon>
+          </Tooltip>
+        )}
+      </Flex>
     </nav>
   );
 }
