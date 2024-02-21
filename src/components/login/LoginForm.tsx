@@ -92,7 +92,7 @@ export default function LoginForm() {
       <Divider label="or" labelPosition="center"></Divider>
 
       <Text ta={"center"} fw={500} c="dimmed">
-        Login With
+        Continue with
       </Text>
       <Flex justify={"center"} gap={10}>
         <GoogleButton

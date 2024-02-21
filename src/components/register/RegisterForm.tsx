@@ -13,8 +13,11 @@ import {
   Anchor
 } from "@mantine/core";
 
+import { GoogleButton } from "../login/buttons/GoogleButton";
+import { GithubIcon } from "@mantinex/dev-icons";
 import { useForm } from "@mantine/form";
 
+import { signIn } from "next-auth/react";
 export default function RegisterForm() {
   const otherAuth = false;
   const registerForm = useForm({
@@ -104,15 +107,29 @@ export default function RegisterForm() {
           </Button>
         </Group>
       </form>
-      {otherAuth && (
-        <>
-          <Divider label="or" labelPosition="center"></Divider>
+      <Divider label="or" labelPosition="center"></Divider>
 
-          <Text ta={"center"} fw={500} c="dimmed">
-            Sign Up With
-          </Text>
-        </>
-      )}
+      <Text ta={"center"} fw={500} c="dimmed">
+        Continue With
+      </Text>
+      <Flex justify={"center"} gap={10}>
+        <GoogleButton
+          onClick={() => {
+            signIn("google", { callbackUrl: "/dashboard" });
+          }}
+        >
+          Google
+        </GoogleButton>
+        <Button
+          leftSection={<GithubIcon style={{ width: "1rem", height: "1rem" }} />}
+          bg={"#181a2c"}
+          onClick={() => {
+            signIn("github", { callbackUrl: "/dashboard" });
+          }}
+        >
+          Github
+        </Button>
+      </Flex>
     </Box>
   );
 }
