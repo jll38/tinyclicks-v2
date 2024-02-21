@@ -19,11 +19,10 @@ import { signIn } from "next-auth/react";
 import { navigate } from "@/lib/navigate";
 
 import { GithubIcon } from "@mantinex/dev-icons";
-
+import { GoogleButton } from "./buttons/GoogleButton";
 import classes from "./SocialButtons.module.scss";
 
 export default function LoginForm() {
-  const otherAuth = false;
   const loginForm = useForm({
     initialValues: {
       email: "",
@@ -95,12 +94,19 @@ export default function LoginForm() {
       <Text ta={"center"} fw={500} c="dimmed">
         Login With
       </Text>
-      <Flex justify={"center"}>
+      <Flex justify={"center"} gap={10}>
+        <GoogleButton
+          onClick={() => {
+            signIn("google", { callbackUrl: "/dashboard" });
+          }}
+        >
+          Google
+        </GoogleButton>
         <Button
           leftSection={<GithubIcon style={{ width: "1rem", height: "1rem" }} />}
           bg={"#181a2c"}
           onClick={() => {
-            signIn("github", { callbackUrl: '/dashboard' })
+            signIn("github", { callbackUrl: "/dashboard" });
           }}
         >
           Github

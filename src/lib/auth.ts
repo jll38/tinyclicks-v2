@@ -2,7 +2,7 @@ import { NextAuthOptions } from "next-auth";
 
 import GithubProvider from "next-auth/providers/github";
 import Credentials from "next-auth/providers/credentials";
-
+import Google from "next-auth/providers/google";
 import { getServerSession } from "next-auth";
 
 import { User } from "@/types/types";
@@ -56,6 +56,10 @@ export const authConfig: NextAuthOptions = {
       clientId: process.env.GITHUB_ID as string,
       clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
     }),
+    Google({
+      clientId: process.env.GOOGLE_ID as string,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+    }),
   ],
   callbacks: {
     async jwt({ token, user }) {
@@ -89,7 +93,10 @@ export const authConfig: NextAuthOptions = {
       // Handle sign-in for GitHub users
       if (!account) return false;
 
-      if (account?.provider === "github" && user.email) {
+      if (
+        user.email &&
+        (account?.provider === "github" || account?.provider === "google")
+      ) {
         console.log(user);
         // Check if user exists in your database
         let dbUser = await Prisma.getInstance().user.findUnique({
@@ -103,7 +110,7 @@ export const authConfig: NextAuthOptions = {
               data: {
                 name: user.name, // Use GitHub login as name if real name is not provided
                 email: user.email,
-                provider: "GITHUB",
+                provider: account?.provider === "github" ? "GITHUB" : "GOOGLE",
               },
             });
             console.log("dbuser");
