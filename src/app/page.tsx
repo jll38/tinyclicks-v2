@@ -1,49 +1,75 @@
+import { FlipCard } from "./../components/home/FlipCard";
 import Shortener from "@/components/Shortener/Shortener";
-import { Title, Text, Flex, Button, Space, Image, Paper } from "@mantine/core";
+import {
+  Title,
+  Text,
+  Flex,
+  Button,
+  Space,
+  Image,
+  Paper,
+  Box,
+} from "@mantine/core";
 
 import classes from "./globals.module.css";
 import { IoAnalytics } from "react-icons/io5";
+import { IconGlobe, IconLink } from "@tabler/icons-react";
+import { navigate } from "@/lib/navigate";
 
 export default function Home() {
+  const serviceIconSize = 36;
   const services = [
     {
-      icon: <IoAnalytics />,
+      icon: <IconLink size={serviceIconSize} />,
+      title: "Link Shortening",
+      description:
+        "Create user-friendly shortcuts to your webpages social media accounts without long links.",
+    },
+    {
+      icon: <IoAnalytics size={serviceIconSize} />,
       title: "Detailed Analytics",
       description:
         "Receive a detailed demographic view of which links are being clicked by your audience.",
     },
     {
-      icon: <IoAnalytics />,
-      title: "Detailed Analytics",
+      icon: <IconGlobe size={serviceIconSize} />,
+      title: "Geographical Tagging",
       description:
-        "Receive a detailed demographic view of which links are being clicked by your audience.",
-    },
-    {
-      icon: <IoAnalytics />,
-      title: "Detailed Analytics",
-      description:
-        "Receive a detailed demographic view of which links are being clicked by your audience.",
+        "Visualize link traffic by location through an intuitive heatmap throughout the globe.",
     },
   ];
   return (
     <main>
       <section style={{ display: "grid", placeItems: "center" }}>
-        <div style={{ width: "1280px", height: "650px", position: "relative" }}>
+        <Box
+          w={{ base: "100%", md: 1000, lg: 1280 }}
+          style={{ height: "650px", position: "relative" }}
+        >
           <Flex
             style={{ height: "100%", zIndex: 10 }}
-            justify={{ md: "space-around", base: "center" }}
+            justify={{ md: "space-around", base: "center", sm: "start" }}
             align={"center"}
-            direction={{ md: "row", base: "column" }}
+            direction={{ md: "row", base: "column-reverse" }}
             wrap="wrap"
             gap={{ md: "0", base: "5%" }}
           >
-            <div style={{ width: "450px", zIndex: 10 }}>
+            <Box style={{ zIndex: 10 }} w={{ md: 450, base: 350 }}>
               <Title
                 order={1}
                 style={{ textTransform: "uppercase" }}
-                size="40"
+                size={"4em"}
                 fw={800}
                 lh="1"
+              >
+                TinyClicks
+              </Title>
+              <Title
+                order={2}
+                style={{ textTransform: "uppercase" }}
+                size={"1.75em"}
+                fw={800}
+                lh="1"
+                c={"dimmed"}
               >
                 Streamline your <span>digital presence</span> in{" "}
                 <span className={classes.textGradient}>one click</span>
@@ -61,26 +87,28 @@ export default function Home() {
                 variant="gradient"
                 gradient={{ from: "blue", to: "cyan", deg: 90 }}
                 style={{ marginTop: "10px" }}
+                component="a"
+                href="/register"
               >
                 Get Started
               </Button>
-            </div>
+            </Box>
 
             <div>
               <Image
                 style={{ zIndex: -1 }}
                 src={"/images/hero-image.webp"}
                 alt=""
-                h={500}
+                h={{ base: 300, lg: 500 }}
               ></Image>
             </div>
           </Flex>
-        </div>
+        </Box>
       </section>
       <section
         style={{
           padding: 20,
-          height: "450px",
+          minHeight: "450px",
           background: "#ecf3fb",
           display: "grid",
           placeItems: "center",
@@ -89,35 +117,15 @@ export default function Home() {
         <Title c="blue.4" order={3}>
           - Our Services -
         </Title>
-        <Flex direction={"row"} justify="space-between" maw={1000}>
+        <Flex
+          direction={{ base: "column", sm: "row" }}
+          justify="center"
+          align={"center"}
+          gap={40}
+          w={"100%"}
+        >
           {services.map((service) => {
-            return (
-              <Paper
-                shadow={"sm"}
-                radius="15px"
-                style={{
-                  width: "270px",
-                  height: "300px",
-                  padding: "10px 20px",
-                  display: "grid",
-                  placeItems: "center",
-                  flexShrink: "1",
-                  flexWrap: "wrap",
-                }}
-              >
-                <div>
-                  <div style={{ display: "grid", placeItems: "center" }}>
-                    <IoAnalytics size={"46px"} />
-                  </div>
-                  <div style={{ marginTop: 20 }}>
-                    <Title ta="center" order={4}>
-                      Detailed Analytics
-                    </Title>
-                    <Text c="dimmed" ta="center"></Text>
-                  </div>
-                </div>
-              </Paper>
-            );
+            return <FlipCard service={service} colors={{bg: "blue", color: "white"}} />;
           })}
         </Flex>
       </section>

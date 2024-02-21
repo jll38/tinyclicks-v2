@@ -11,6 +11,7 @@ import {
   IconLogout,
   IconGlobe,
   IconSwitchHorizontal,
+  
 } from "@tabler/icons-react";
 
 import classes from "./SideNav.module.scss";
