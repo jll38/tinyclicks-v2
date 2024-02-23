@@ -5,6 +5,11 @@ const nextConfig = {
       allowedOrigins: ["my-proxy.com", "*.my-proxy.com"],
     },
   },
+  images: {
+    domains : [
+      "lh3.googleusercontent.com"
+    ]
+  }
 };
 
 export default nextConfig;

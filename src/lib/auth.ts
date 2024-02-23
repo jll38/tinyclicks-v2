@@ -35,7 +35,7 @@ export const authConfig: NextAuthOptions = {
           return null;
 
         const user = await Prisma.getInstance().user.findFirst({
-          where: { email: credentials.email },
+          where: { email: credentials.email, provider: "CREDENTIALS"},
         });
 
         if (!user) return null;
@@ -69,6 +69,7 @@ export const authConfig: NextAuthOptions = {
         const dbUser = await Prisma.getInstance().user.findFirst({
           where: {
             email: user.email,
+            provider: "CREDENTIALS",
           },
           select: {
             id: true,

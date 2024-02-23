@@ -9,11 +9,14 @@ import {
   Image,
   Tooltip,
   Menu,
+  Divider
 } from "@mantine/core";
 import { ActionIcon, Skeleton } from "@mantine/core";
 
+
 import { useSession, signIn, signOut } from "next-auth/react";
 
+import { Avatar } from '@mantine/core';
 import { FaUser } from "react-icons/fa";
 import { MdDashboard } from "react-icons/md";
 import { PiSignOutBold } from "react-icons/pi";
@@ -31,12 +34,6 @@ export default function Navbar() {
     }
   }, [session]);
 
-  const navLinks = [
-    {
-      label: "Login",
-      href: "/login",
-    },
-  ];
   return (
     <nav
       style={{
@@ -77,10 +74,11 @@ export default function Navbar() {
               <Menu.Dropdown>
                 <Menu.Item component="a" href="/profile" disabled>
                   <Flex justify={"start"} align="center" gap={6}>
-                    <FaUser size={20} />
+                    <Avatar src={session.user?.image}></Avatar>
                     <div>Profile</div>
                   </Flex>
                 </Menu.Item>
+                <Divider/>
                 <Menu.Item component="a" href="/dashboard">
                   <Flex justify={"start"} align="center" gap={6}>
                     <MdDashboard size={20} />
