@@ -35,7 +35,7 @@ export const authConfig: NextAuthOptions = {
           return null;
 
         const user = await Prisma.getInstance().user.findFirst({
-          where: { email: credentials.email, provider: "CREDENTIALS"},
+          where: { email: credentials.email, provider: "CREDENTIALS" },
         });
 
         if (!user) return null;
@@ -62,31 +62,28 @@ export const authConfig: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    async jwt({ token, user }) {
-      // If the user object exists, it means a user has just signed in or up,
-      // so you can encode the user's ID into the JWT token
-      if (user && user.email) {
+    async jwt({ token, user, account }) {
+      // Check if signing in or if an account exists (for OAuth logins)
+      if (user?.email) {
         const dbUser = await Prisma.getInstance().user.findFirst({
           where: {
             email: user.email,
-            provider: "CREDENTIALS",
           },
           select: {
             id: true,
           },
         });
-        const id: String = dbUser?.id || "";
-        token.id = id;
+        if (dbUser) {
+          token.userId = dbUser.id;
+        }
       }
       return token;
     },
 
     async session({ session, token }) {
-      // Here, you decode the JWT token and attach the user's ID to the session object
-
-      if (token.id && session.user) {
-        //@ts-ignore {} is not assignable to string error (despite both being strings)
-        session.user.id = token.id || "";
+      if (token.userId && session.user) {
+        //@ts-ignore
+        session.user.id = token.userId;
       }
       return session;
     },
@@ -129,7 +126,6 @@ export const authConfig: NextAuthOptions = {
           });
         }
 
-        // Convert dbUser to your User type if necessary, then return true to signal a successful sign-in
         return true;
       }
       return true; // Return true for other providers or credentials sign-in

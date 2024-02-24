@@ -31,6 +31,7 @@ export default function Navbar() {
   React.useEffect(() => {
     if (session !== undefined) {
       setSessionLoading(false);
+      console.log(session?.user)
     }
   }, [session]);
 

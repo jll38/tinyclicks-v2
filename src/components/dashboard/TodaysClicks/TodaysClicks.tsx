@@ -8,25 +8,28 @@ export default function TodaysClicks() {
   const { data: session } = useSession();
 
   React.useEffect(() => {
-   if(session !== undefined){
-    fetch(
-      `api/dashboard?usr=${session!.user!.id}&operation=todays-clicks&timeZone=${TIME_ZONE}`,
-      {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-      }
-    )
-      .then((response) => response.json())
-      .then((responseData) => {
-        console.log(responseData);
-        setData(responseData.data);
-      });
-   }
+    if (session?.user !== undefined) {
+      console.log(session.user)
+      fetch(
+        `api/dashboard?usr=${
+          session!.user!.id
+        }&operation=todays-clicks&timeZone=${TIME_ZONE}`,
+        {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+        }
+      )
+        .then((response) => response.json())
+        .then((responseData) => {
+          console.log(responseData);
+          setData(responseData.data);
+        });
+    }
   }, [session]);
 
   return (
     <>
-    {!data && <Skeleton w={"100%"} h={"105px"} radius={20}/>}
+      {!data && <Skeleton w={"100%"} h={"105px"} radius={20} />}
       {data && (
         <Paper
           style={{
