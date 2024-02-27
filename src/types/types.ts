@@ -3,12 +3,9 @@
 export interface ILocation {
   city: string;
   region_name: string;
-  region_code: string;
   country_name: string;
   country_code: string;
-  continent_name: string;
-  continent_code: string;
-  zip_code: string;
+  postal: string;
   coordinates: Coordinate;
 }
 
@@ -49,9 +46,9 @@ export class Coordinate {
   readonly latitude: number;
   readonly longitude: number;
 
-  constructor(longitude: number, latitude: number) {
-    this.longitude = longitude;
+  constructor(latitude: number, longitude: number) {
     this.latitude = latitude;
+    this.longitude = longitude;
   }
 
 }
@@ -59,33 +56,24 @@ export class Coordinate {
 export class Location implements ILocation {
   readonly city: string;
   readonly region_name: string;
-  readonly region_code: string;
   readonly country_name: string;
   readonly country_code: string;
-  readonly continent_name: string;
-  readonly continent_code: string;
-  readonly zip_code: string;
+  readonly postal: string;
   readonly coordinates: Coordinate;
 
   constructor(
     city: string,
     region_name: string,
-    region_code: string,
     country_name: string,
     country_code: string,
-    continent_name: string,
-    continent_code: string,
-    zip_code: string,
+    postal: string,
     coordinates: Coordinate
   ) {
     this.city = city;
     this.region_name = region_name;
-    this.region_code = region_code;
     this.country_name = country_name;
     this.country_code = country_code;
-    this.continent_name = continent_name;
-    this.continent_code = continent_code;
-    this.zip_code = zip_code;
+    this.postal = postal;
     this.coordinates = coordinates;
   }
 

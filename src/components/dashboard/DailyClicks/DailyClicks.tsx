@@ -2,20 +2,21 @@
 import cx from "clsx";
 import { useState, useEffect } from "react";
 import { Table, ScrollArea, Paper, Title, Skeleton } from "@mantine/core";
+import { TIME_ZONE } from "@/lib/constants";
 import classes from "./TopPerformers.module.scss";
 
 export default function DailyClicks() {
-    useEffect(() => {
-      fetch(
-        `api/dashboard?usr=65c3fd2b7b44e07ada89f6ba&operation=top-performers`,
-        {
-          method: "GET",
-          headers: { "Content-Type": "application/json" },
-        }
-      )
-        .then((response) => response.json())
-        .then((responseData) => setData(responseData.data));
-    }, []);
+  useEffect(() => {
+    fetch(
+      `api/dashboard?usr=65c3fd2b7b44e07ada89f6ba&operation=top-performers&timeZone=${TIME_ZONE}`,
+      {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      }
+    )
+      .then((response) => response.json())
+      .then((responseData) => setData(responseData.data));
+  }, []);
 
   const [data, setData] = useState<any>(null);
 

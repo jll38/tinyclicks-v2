@@ -1,6 +1,10 @@
 import { Prisma } from "@/lib/Prisma";
 import { NextResponse, NextRequest } from "next/server";
-import { TrafficService, TodaysTrafficService } from "@/lib/TrafficService";
+import {
+  TrafficService,
+  TodaysTrafficService,
+  TrafficLogger,
+} from "@/lib/TrafficService";
 
 export async function GET(req: NextRequest) {
   let userId = req.nextUrl.searchParams.get("usr");
@@ -16,6 +20,7 @@ export async function GET(req: NextRequest) {
 
   let data;
 
+  console.log("test")
   switch (operation) {
     case "top-performers":
       data = await retrieveTopPerformers(userId);
@@ -26,6 +31,12 @@ export async function GET(req: NextRequest) {
     case "links":
       data = await retrieveLinks(userId);
       break;
+  }
+  const ip = TrafficLogger.parseRequestIP(req);
+
+  let country;
+  if(ip){
+    data = country = await TrafficLogger.retrieveLocation(ip)
   }
 
   return NextResponse.json(
@@ -56,5 +67,5 @@ async function retrieveLinks(userId: string | null) {
 }
 
 async function getTodaysClicks(userId: string, timeZone: string) {
-  console.log(await TodaysTrafficService.getClicksCount(userId, timeZone));
+  return await TodaysTrafficService.getClicksCount(userId, timeZone);
 }

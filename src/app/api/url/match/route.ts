@@ -4,6 +4,8 @@ import { Traffic, Location, Coordinate } from "@/types/types"; // Adjust the imp
 import { Prisma } from "@/lib/prisma";
 import { DOMAIN } from "@/lib/constants";
 
+import { TrafficService } from "@/lib/TrafficService";
+
 interface IReqData {
   slug: string;
   ip: string;
@@ -51,4 +53,5 @@ async function incrementLinkClicks(slug: string) {
     },
     data: { clicks: { increment: 1 } },
   });
+
 }
