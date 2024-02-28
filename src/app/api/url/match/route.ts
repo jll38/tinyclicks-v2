@@ -28,11 +28,10 @@ export async function POST(req: NextRequest) {
   )
     return new Response("Invalid request data", { status: 400 });
 
-  const { slug, ip, referrer, browser, device }: IReqData = requestData;
-  const shortURL = DOMAIN + slug;
+  const { slug, referrer, browser, device }: IReqData = requestData;
   const linkRecord = await Prisma.getInstance().link.findFirst({
     where: {
-      shortURL,
+      shortURL: slug
     },
     select: {
       originalURL: true,
@@ -41,7 +40,7 @@ export async function POST(req: NextRequest) {
   });
 
   if (!linkRecord) return new Response("Link not found", { status: 404 });
-  
+
   await LinkTrafficLogger.recordTraffic(linkRecord.id, req)
 
   await incrementLinkClicks(slug).catch((err) => {
@@ -56,7 +55,7 @@ export async function POST(req: NextRequest) {
 async function incrementLinkClicks(slug: string) {
   await Prisma.getInstance().link.update({
     where: {
-      shortURL: DOMAIN + slug,
+      shortURL: slug,
     },
     data: { clicks: { increment: 1 } },
   });

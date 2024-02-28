@@ -92,6 +92,8 @@ export default function Home() {
               >
                 Get Started
               </Button>
+
+              <Shortener/>
             </Box>
 
             <div>

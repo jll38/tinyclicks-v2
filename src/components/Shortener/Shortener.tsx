@@ -2,7 +2,7 @@
 import React from "react";
 import Link from "next/link";
 import { Box, Button, TextInput, rem, Text, Paper} from "@mantine/core";
-
+import { DOMAIN } from "@/lib/constants";
 import { notifications } from "@mantine/notifications";
 
 import { LinkValidator } from "@/lib/validator";
@@ -28,7 +28,7 @@ export default function Shortener() {
     >
       <TextInput
         label="Try it out!"
-        leftSection={<div style={{ fontSize: 12 }}>https://</div>}
+        leftSection={<div style={{ fontSize: 12 }}>http://</div>}
         leftSectionWidth={"50px"}
         rightSection={
           <Button
@@ -67,7 +67,7 @@ export default function Shortener() {
         type="text"
         placeholder="example.com"
         onChange={(e) => {
-          setLink("https://" + e.target.value);
+          setLink("http://" + e.target.value);
         }}
         style={{ overflow: "hidden" }}
       ></TextInput>
@@ -75,8 +75,8 @@ export default function Shortener() {
         Create an account for more advanced features!
       </Text>
       {retrievedURL && (
-        <Link style={{ position: "absolute" }} href={retrievedURL}>
-          Your Shortened Link is: {retrievedURL}
+        <Link style={{ position: "absolute" }} href={DOMAIN + retrievedURL}>
+          Your Shortened Link is: {DOMAIN + retrievedURL}
         </Link>
       )}
     </Paper>
