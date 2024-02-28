@@ -95,7 +95,6 @@ export const authConfig: NextAuthOptions = {
         user.email &&
         (account?.provider === "github" || account?.provider === "google")
       ) {
-        console.log(user);
         // Check if user exists in your database
         let dbUser = await Prisma.getInstance().user.findUnique({
           where: { email: user.email },
@@ -111,8 +110,6 @@ export const authConfig: NextAuthOptions = {
                 provider: account?.provider === "github" ? "GITHUB" : "GOOGLE",
               },
             });
-            console.log("dbuser");
-            console.log(await dbUser);
           } catch (error) {
             throw new Error("Error signing in with Github");
           }

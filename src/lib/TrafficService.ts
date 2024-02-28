@@ -23,7 +23,6 @@ export class TrafficLogger {
 
     const forwarded = req.headers.get("x-forwarded-for");
     const ip = forwarded ? forwarded.split(/, /)[0] : req.ip;
-    console.log(ip);
     return ip;
   }
 

@@ -32,7 +32,6 @@ class Redirector {
         userAgent.browser,
         userAgent.device
       );
-      console.log(data);
       window.location.assign(data.url);
     } catch (error) {
       console.error("Redirect Error:", error);

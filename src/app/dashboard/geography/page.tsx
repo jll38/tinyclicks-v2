@@ -11,7 +11,6 @@ const MapboxMap = ({ initialCenter = [-74.5, 40], initialZoom = 9 }) => {
 
   // Initialize map when component mounts
   useEffect(() => {
-    console.log(MAPBOX_API_KEY);
     mapboxgl.accessToken = MAPBOX_API_KEY;
     const initializeMap = new mapboxgl.Map({
       container: mapContainerRef.current,

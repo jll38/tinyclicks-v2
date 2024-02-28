@@ -43,7 +43,7 @@ export default function RegisterForm() {
       body: JSON.stringify(credentials),
     })
       .then((response) => response.json())
-      .then((data) => console.log(data));
+      .then((data) => {});
   }
 
   interface RegisterFormValues {

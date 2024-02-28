@@ -18,7 +18,6 @@ export default function TopPerformers() {
       })
         .then((response) => response.json())
         .then((responseData) => {
-          console.log(responseData);
           setData(responseData.data);
         });
     }

@@ -9,7 +9,6 @@ export default function TodaysClicks() {
 
   React.useEffect(() => {
     if (session?.user !== undefined) {
-      console.log(session.user)
       fetch(
         `api/dashboard?usr=${
           session!.user!.id
@@ -21,7 +20,6 @@ export default function TodaysClicks() {
       )
         .then((response) => response.json())
         .then((responseData) => {
-          console.log(responseData);
           setData(responseData.data);
         });
     }
