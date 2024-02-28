@@ -4,10 +4,12 @@ import { NextResponse, NextRequest } from "next/server";
 import { Shortener } from "../../../../lib/Shortener";
 
 export async function POST(req: NextRequest) {
-  const { userID, originalURL, locked } = await req.json();
+  let { userID, originalURL, locked, name } = await req.json();
+
+  if (!name) name = new URL(originalURL).hostname;
 
   const shortURL = await ensureUnique(Shortener.shorten(originalURL));
-  if (await createUrlRecord(userID, originalURL, shortURL, locked))
+  if (await createUrlRecord(userID, originalURL, shortURL, locked, name))
     return NextResponse.json(
       { shortURL },
       {
@@ -26,7 +28,8 @@ async function createUrlRecord(
   userId: string | null,
   originalURL: string,
   shortURL: string,
-  locked: boolean
+  locked: boolean,
+  name: string | null
 ): Promise<boolean> {
   try {
     await Prisma.getInstance().link.create({
@@ -35,6 +38,7 @@ async function createUrlRecord(
         originalURL,
         shortURL,
         protected: locked,
+        name,
       },
     });
     return true;

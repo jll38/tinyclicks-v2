@@ -70,7 +70,7 @@ model User {
 
 model Traffic {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  link      Link     @relation(fields: [linkId], references: [id], onDelete: Cascade)
+  link      Link     @relation(fields: [linkId], references: [id])
   linkId    String // Foreign key to Link model
   location  Json
   createdAt DateTime @default(now())
