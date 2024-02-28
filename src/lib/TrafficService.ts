@@ -12,8 +12,9 @@ interface ITrafficServiceQuery {
   endTime?: string;
 }
 
+
 export class TrafficLogger {
-  static parseRequestIP(req: NextRequest) {
+  static _parseRequestIP(req: NextRequest) {
     // Check if running in development environment
     if (process.env.NODE_ENV === "development") {
       // Return a simulated external IP address
@@ -26,9 +27,18 @@ export class TrafficLogger {
     return ip;
   }
 
-  static async retrieveLocation(ip: string): Promise<Location> {
-    const response = await fetch(`https://ipinfo.io/${ip}?token=${IPINFO_TOKEN}`);
-    const { city, region: region_name, country: country_code, postal, loc } = await response.json();
+  static async _retrieveLocation(ip: string | undefined): Promise<Location> {
+    if (!ip) throw new Error("Invalid or non-existant IP address");
+    const response = await fetch(
+      `https://ipinfo.io/${ip}?token=${IPINFO_TOKEN}`
+    );
+    const {
+      city,
+      region: region_name,
+      country: country_code,
+      postal,
+      loc,
+    } = await response.json();
 
     const country_name = countries[country_code];
 
@@ -36,8 +46,40 @@ export class TrafficLogger {
     const [latitude, longitude] = loc.split(",").map(Number.parseFloat);
     const coordinates = new Coordinate(latitude, longitude);
 
-    return new Location(city, region_name, country_name, country_code, postal, coordinates);
+    return new Location(
+      city,
+      region_name,
+      country_name,
+      country_code,
+      postal,
+      coordinates
+    );
+  }
 }
+
+export class LinkTrafficLogger extends TrafficLogger{
+  static async recordTraffic(linkId: string, req: NextRequest): Promise<void> {
+    //1. Parse Request IP
+    const ip = this._parseRequestIP(req);
+    //2. Get Location Object
+    const location = await this._retrieveLocation(ip);
+    //3. Get Origin Device and Browser
+
+    //4. Write to the database
+    
+    try{
+      await Prisma.getInstance().traffic.create({
+        data: {
+          linkId,
+          //@ts-ignore
+          location,
+        }
+      })
+    } catch(e){
+      throw new Error(`Error creating Traffic Record:\n ${e}`)
+    }
+    
+  }
 }
 
 export class TrafficService {

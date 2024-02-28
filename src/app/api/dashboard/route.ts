@@ -20,7 +20,6 @@ export async function GET(req: NextRequest) {
 
   let data;
 
-  console.log("test")
   switch (operation) {
     case "top-performers":
       data = await retrieveTopPerformers(userId);
@@ -32,12 +31,7 @@ export async function GET(req: NextRequest) {
       data = await retrieveLinks(userId);
       break;
   }
-  const ip = TrafficLogger.parseRequestIP(req);
 
-  let country;
-  if(ip){
-    data = country = await TrafficLogger.retrieveLocation(ip)
-  }
 
   return NextResponse.json(
     { data },

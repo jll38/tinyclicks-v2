@@ -4,7 +4,12 @@ import { Traffic, Location, Coordinate } from "@/types/types"; // Adjust the imp
 import { Prisma } from "@/lib/prisma";
 import { DOMAIN } from "@/lib/constants";
 
-import { TrafficService } from "@/lib/TrafficService";
+import {
+  TrafficService,
+  TodaysTrafficService,
+  TrafficLogger,
+  LinkTrafficLogger,
+} from "@/lib/TrafficService";
 
 interface IReqData {
   slug: string;
@@ -27,23 +32,25 @@ export async function POST(req: NextRequest) {
   const shortURL = DOMAIN + slug;
   const linkRecord = await Prisma.getInstance().link.findFirst({
     where: {
-      shortURL
+      shortURL,
     },
     select: {
       originalURL: true,
       id: true,
     },
   });
-  console.log("link record");
-  console.log(linkRecord);
 
   if (!linkRecord) return new Response("Link not found", { status: 404 });
+  
+  await LinkTrafficLogger.recordTraffic(linkRecord.id, req)
 
   await incrementLinkClicks(slug).catch((err) => {
     throw new Error("Error Incrementing Link Count", err);
   });
 
-  return new NextResponse(JSON.stringify({ url: linkRecord.originalURL }), { status: 200 });
+  return new NextResponse(JSON.stringify({ url: linkRecord.originalURL }), {
+    status: 200,
+  });
 }
 
 async function incrementLinkClicks(slug: string) {
@@ -53,5 +60,4 @@ async function incrementLinkClicks(slug: string) {
     },
     data: { clicks: { increment: 1 } },
   });
-
 }

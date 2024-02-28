@@ -42,7 +42,8 @@
     "recharts": "2",
     "sass": "^1.70.0",
     "scss": "^0.2.4",
-    "ts-jest": "^29.1.2"
+    "ts-jest": "^29.1.2",
+    "ua-parser-js": "^1.0.37"
   },
   "devDependencies": {
     "@types/bun": "latest",
