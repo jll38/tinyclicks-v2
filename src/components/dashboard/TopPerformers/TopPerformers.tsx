@@ -4,18 +4,25 @@ import { useState, useEffect } from "react";
 import { Table, ScrollArea, Paper, Title, Skeleton } from "@mantine/core";
 import classes from "./TopPerformers.module.scss";
 
+import { useSession } from "next-auth/react";
+import { TIME_ZONE } from "@/lib/constants";
+
 export default function TopPerformers() {
+  const { data: session } = useSession();
+
   useEffect(() => {
-    fetch(
-      `api/dashboard?usr=65c3fd2b7b44e07ada89f6ba&operation=top-performers`,
-      {
+    if (session?.user !== undefined) {
+      fetch(`api/dashboard?usr=${session!.user!.id}&operation=top-performers&timeZone=${TIME_ZONE}`, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
-      }
-    )
-      .then((response) => response.json())
-      .then((responseData) => setData(responseData.data));
-  }, []);
+      })
+        .then((response) => response.json())
+        .then((responseData) => {
+          console.log(responseData);
+          setData(responseData.data);
+        });
+    }
+  }, [session]);
 
   const [data, setData] = useState<any>(null);
   const [scrolled, setScrolled] = useState(false);
