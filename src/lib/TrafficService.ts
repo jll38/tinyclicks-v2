@@ -12,7 +12,6 @@ interface ITrafficServiceQuery {
   endTime?: string;
 }
 
-
 export class TrafficLogger {
   static _parseRequestIP(req: NextRequest) {
     // Check if running in development environment
@@ -56,7 +55,7 @@ export class TrafficLogger {
   }
 }
 
-export class LinkTrafficLogger extends TrafficLogger{
+export class LinkTrafficLogger extends TrafficLogger {
   static async recordTraffic(linkId: string, req: NextRequest): Promise<void> {
     //1. Parse Request IP
     const ip = this._parseRequestIP(req);
@@ -65,19 +64,18 @@ export class LinkTrafficLogger extends TrafficLogger{
     //3. Get Origin Device and Browser
 
     //4. Write to the database
-    
-    try{
+
+    try {
       await Prisma.getInstance().traffic.create({
         data: {
           linkId,
           //@ts-ignore
           location,
-        }
-      })
-    } catch(e){
-      throw new Error(`Error creating Traffic Record:\n ${e}`)
+        },
+      });
+    } catch (e) {
+      throw new Error(`Error creating Traffic Record:\n ${e}`);
     }
-    
   }
 }
 
@@ -111,6 +109,29 @@ export class TrafficService {
                   gte: query.startTime,
                   lt: query.endTime ? query.endTime : undefined,
                 },
+              },
+            },
+          },
+        },
+      },
+    });
+  }
+
+  static async _queryAllTrafficData(userId: string) {
+    // Use the Prisma singleton instance for database operations
+    return await Prisma.getInstance().user.findMany({
+      where: {
+        id: userId,
+      },
+      select: {
+        links: {
+          select: {
+            id: true,
+            traffic: {
+              select: {
+                id: true,
+                location: true,
+                createdAt: true,
               },
             },
           },
