@@ -1,9 +1,9 @@
-import { NextAuthOptions } from "next-auth";
+import { NextAuthOptions } from "next-auth/";
 
 import GithubProvider from "next-auth/providers/github";
 import Credentials from "next-auth/providers/credentials";
 import Google from "next-auth/providers/google";
-import { getServerSession } from "next-auth";
+import { getServerSession } from "next-auth/next";
 
 import { User } from "@/types/types";
 

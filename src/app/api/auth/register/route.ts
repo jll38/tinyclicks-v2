@@ -1,4 +1,4 @@
-import { Prisma } from "@/lib/Prisma";
+import { Prisma } from "../../../../lib/Prisma"
 import { NextResponse, NextRequest } from "next/server";
 import { Hasher } from "@/lib/authHandlers";
 

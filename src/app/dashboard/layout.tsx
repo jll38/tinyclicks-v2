@@ -8,7 +8,7 @@ import { ColorSchemeScript } from "@mantine/core";
 import { Notifications } from "@mantine/notifications";
 
 import { NavbarMinimal as SideNav } from "@/components/shared/dashboard/SideNav/SideNav";
-import { getServerSession } from "next-auth";
+import { getServerSession } from "next-auth/next";
 import { authConfig } from "@/lib/auth";
 import { navigate } from "@/lib/navigate";
 const theme = createTheme({

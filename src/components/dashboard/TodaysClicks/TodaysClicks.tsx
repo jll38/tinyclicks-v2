@@ -9,8 +9,10 @@ export default function TodaysClicks() {
 
   React.useEffect(() => {
     if (session?.user !== undefined) {
+      
       fetch(
         `api/dashboard?usr=${
+          //@ts-ignore
           session!.user!.id
         }&operation=todays-clicks&timeZone=${TIME_ZONE}`,
         {

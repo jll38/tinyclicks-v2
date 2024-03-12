@@ -93,7 +93,7 @@ export default function Home() {
                 Get Started
               </Button>
 
-              <Shortener/>
+              <Shortener />
             </Box>
 
             <div>
@@ -126,8 +126,14 @@ export default function Home() {
           gap={40}
           w={"100%"}
         >
-          {services.map((service) => {
-            return <FlipCard service={service} colors={{bg: "blue", color: "white"}} />;
+          {services.map((service, i) => {
+            return (
+              <FlipCard
+                service={service}
+                colors={{ bg: "blue", color: "white" }}
+                key={"service-" + i}
+              />
+            );
           })}
         </Flex>
       </section>

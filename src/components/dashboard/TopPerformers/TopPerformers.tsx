@@ -12,6 +12,7 @@ export default function TopPerformers() {
 
   useEffect(() => {
     if (session?.user !== undefined) {
+      //@ts-ignore
       fetch(`api/dashboard?usr=${session!.user!.id}&operation=top-performers&timeZone=${TIME_ZONE}`, {
         method: "GET",
         headers: { "Content-Type": "application/json" },

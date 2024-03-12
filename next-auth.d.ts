@@ -14,3 +14,5 @@ declare module "next-auth" {
     id?: string;
   }
 }
+
+export { User };

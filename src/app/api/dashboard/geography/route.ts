@@ -1,4 +1,4 @@
-import { Prisma } from "@/lib/Prisma";
+import { Prisma } from "../../../../lib/Prisma";
 import { NextResponse, NextRequest } from "next/server";
 import {
   TrafficService,
@@ -9,7 +9,13 @@ import {
 export async function GET(req: NextRequest) {
   let userId = req.nextUrl.searchParams.get("usr");
   console.log(userId);
-  if (!userId) return new Error("User not found");
+  if (!userId)
+    return NextResponse.json(
+      { error: "user not found" },
+      {
+        status: 404,
+      }
+    );
   let data = await TrafficService._queryAllTrafficData(userId);
   return NextResponse.json(data, {
     status: 200,
