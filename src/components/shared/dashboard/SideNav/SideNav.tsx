@@ -13,6 +13,7 @@ import {
   IconLink,
   IconSwitchHorizontal,
 } from "@tabler/icons-react";
+import { MdCampaign } from "react-icons/md";
 
 import classes from "./SideNav.module.scss";
 
@@ -50,6 +51,7 @@ function NavbarLink({
 const mockdata = [
   { icon: IconHome2, label: "Home", route: "/dashboard" },
   { icon: IconLink, label: "Links", route: "/dashboard/manage-links" },
+  { icon: MdCampaign, label: "Campaigns", route: "/dashboard/campaigns" },
   {
     icon: IconDeviceDesktopAnalytics,
     label: "Analytics",
