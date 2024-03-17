@@ -7,23 +7,23 @@ async function retrieveUserLinks(userId: string) {
       userId,
     },
     orderBy: {
-        createdAt: "desc"
-    }
+      createdAt: "desc",
+    },
   });
 }
 
 async function retrieveUserCollections(userId: string) {
-    return await Prisma.getInstance().collection.findMany({
-      where: {
-        userId,
-      },
-      orderBy: {
-          createdAt: "desc"
-      }
-    });
-  }
+  return await Prisma.getInstance().collection.findMany({
+    where: {
+      userId,
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+}
 export async function GET(req: NextRequest) {
-    console.log("GET")
+  console.log("GET");
   let userId = req.nextUrl.searchParams.get("usr");
   if (userId === null)
     return NextResponse.json({ error: "No user specified" }, { status: 401 });
@@ -31,15 +31,12 @@ export async function GET(req: NextRequest) {
   let data;
   const userLinks = await retrieveUserLinks(userId);
   const userCollections = await retrieveUserCollections(userId);
-  data = { 
+  data = {
     userLinks,
-    userCollections
-  }
+    userCollections,
+  };
   console.log(data);
-  return NextResponse.json(
-    { data },
-    {
-      status: 200,
-    }
-  );
+  return NextResponse.json(data, {
+    status: 200,
+  });
 }
