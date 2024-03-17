@@ -52,49 +52,71 @@ export default function Managelinks() {
             display={"flex"}
             radius={20}
             shadow={"sm"}
-            style={{ width: "100%" }}
+            style={{ width: "100%", maxHeight: "650px", overflow: "hidden" }}
           >
-            <Box bg={"gray.3"} style={{ width: "250px" }}>
+            <Box
+              bg={"gray.2"}
+              style={{
+                width: "250px",
+                overflow: "scroll",
+              }}
+            >
               {
                 //@ts-ignore
                 links.map((link, i) => {
                   return (
-                    <Button
-                      c={"gray.9"}
+                    <button
                       style={{ width: "100%" }}
                       className={styles.linkButton}
-                      variant={"transparent"}
                       key={`link-${i}`}
                       onClick={() => {
                         setSelectedLink(link);
                       }}
                     >
-                      <div className="w-full ">
-                        {" "}
-                        <div>{link.name}</div>
-                        <div className="text-left border-2 border-red-500">
-                          {link.clicks} <CgLoadbarSound />
-                        </div>
+                      <div>{link.name}</div>
+                      <div>
+                        {link.clicks} <CgLoadbarSound />
                       </div>
-                    </Button>
+                    </button>
                   );
                 })
               }
             </Box>
-            <Box p={"30px 10px 10px 60px"}>
+            <Box p={"30px 60px 10px 60px"} w={"100%"}>
               {selectedLink ? (
                 <>
                   <div>
                     <Title c={"gray.7"}>
                       {selectedLink.name || "undefined"}
                     </Title>
-                    <Text c={"dimmed"}>
-                      {selectedLink.clicks || 0} Clicks
-                    </Text>
+                    <Text c={"dimmed"}>{selectedLink.clicks || 0} Clicks</Text>
                     <div className="flex gap-4">
                       <Button variant={"outline"} w="90">
                         Edit
                       </Button>
+                    </div>
+                    <div className={styles.referrersBox}>
+                      <div
+                        style={{
+                          width: "30%",
+                          height: "100%",
+                          backgroundColor: "blue",
+                        }}
+                      ></div>
+                       <div
+                        style={{
+                          width: "20%",
+                          height: "100%",
+                          backgroundColor: "red",
+                        }}
+                      ></div>
+                       <div
+                        style={{
+                          width: "10%",
+                          height: "100%",
+                          backgroundColor: "pink",
+                        }}
+                      ></div>
                     </div>
                   </div>
                 </>

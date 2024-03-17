@@ -1,10 +1,38 @@
 .linkButton {
   height: 60px;
   inline-size: auto;
+  width: 100%;
+  padding: 0 16px;
+  justify-content: space-between;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  border: none;
+  cursor: pointer;
+  overflow: hidden;
+  outline: none;
+  line-height: 1rem;
+}
+
+.linkButton > div {
   display: flex;
-  flex-direction: column-reverse;
+  align-items: center;
+}
+.linkButton > div:nth-child(1) {
+  text-transform: capitalize;
+
+}
+.linkButton > div:nth-child(2) {
+  color: #616161;
+
 }
 
 .linkButton:hover {
   background: #c9c9c9;
+}
+
+.referrersBox{
+  width: 100%;
+  border: 2px gray solid;
+  height: 200px;
+  display: flex;
 }
