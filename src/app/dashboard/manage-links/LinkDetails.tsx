@@ -2,11 +2,18 @@
 import React from "react";
 import { Box, Title, Text, Button } from "@mantine/core";
 import styles from "./managelinks.module.css";
+import { useSession } from "next-auth/react";
 
 export function LinkDetails({ selectedLink }: any) {
+  const { data: session } = useSession();
   React.useEffect(() => {
     console.log("Fetching traffic data for " + selectedLink.name);
-  }, [selectedLink]);
+    //@ts-ignore
+    if (session && session.user && session.user.id) {
+      //@ts-ignore
+      fetch(`/api/dashboard/get-links/link?usr=${session.user.id}&link=${selectedLink.id}`);
+    }
+  }, [selectedLink, session]);
   return (
     <Box p={"30px 60px 10px 60px"} w={"100%"}>
       {selectedLink ? (
