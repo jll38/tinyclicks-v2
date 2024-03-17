@@ -10,8 +10,8 @@ import {
   IconSettings,
   IconLogout,
   IconGlobe,
+  IconLink,
   IconSwitchHorizontal,
-  
 } from "@tabler/icons-react";
 
 import classes from "./SideNav.module.scss";
@@ -49,7 +49,12 @@ function NavbarLink({
 
 const mockdata = [
   { icon: IconHome2, label: "Home", route: "/dashboard" },
-  { icon: IconDeviceDesktopAnalytics, label: "Analytics", route: "/dashboard/analytics" },
+  { icon: IconLink, label: "Links", route: "/dashboard/manage-links" },
+  {
+    icon: IconDeviceDesktopAnalytics,
+    label: "Analytics",
+    route: "/dashboard/analytics",
+  },
   { icon: IconGlobe, label: "Geolocation", route: "/dashboard/geography" },
   { icon: IconUser, label: "Account", route: "/dashboard/account" },
   { icon: IconSettings, label: "Settings", route: "/dashboard/settings" },
