@@ -12,6 +12,9 @@ interface ITrafficServiceQuery {
   endTime?: string;
 }
 
+interface ITrafficServiceQueryByLink extends ITrafficServiceQuery {
+  linkId: string;
+}
 export class TrafficLogger {
   static _parseRequestIP(req: NextRequest) {
     // Check if running in development environment
@@ -105,6 +108,33 @@ export class TrafficService {
                 createdAt: true,
               },
               where: {
+                createdAt: {
+                  gte: query.startTime,
+                  lt: query.endTime ? query.endTime : undefined,
+                },
+              },
+            },
+          },
+        },
+      },
+    });
+  }
+
+  static async _queryTrafficDataByLink(query: ITrafficServiceQueryByLink) {
+    // Use the Prisma singleton instance for database operations
+    return await Prisma.getInstance().user.findMany({
+      where: {
+        id: query.userId
+      },
+      select: {
+        links: {
+          select: {
+            traffic: {
+              select: {
+                createdAt: true,
+              },
+              where: {
+                linkId: query.linkId,
                 createdAt: {
                   gte: query.startTime,
                   lt: query.endTime ? query.endTime : undefined,
