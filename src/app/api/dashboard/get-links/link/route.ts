@@ -9,7 +9,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: "No user specified" }, { status: 401 });
   if (linkId === null)
     return NextResponse.json({ error: "No link specified" }, { status: 401 });
-
+    
   console.log(linkId);
   let data = {linkId};
 
