@@ -6,12 +6,20 @@ import { useSession } from "next-auth/react";
 
 export function LinkDetails({ selectedLink }: any) {
   const { data: session } = useSession();
+  const [data, setData] = React.useState<any>();
   React.useEffect(() => {
     console.log("Fetching traffic data for " + selectedLink.name);
     //@ts-ignore
     if (session && session.user && session.user.id) {
       //@ts-ignore
-      fetch(`/api/dashboard/get-links/link?usr=${session.user.id}&link=${selectedLink.id}`);
+      fetch(
+        `/api/dashboard/get-links/link?usr=${session.user.id}&link=${selectedLink.id}`
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          setData(data);
+          console.log(data);
+        });
     }
   }, [selectedLink, session]);
   return (
@@ -20,6 +28,7 @@ export function LinkDetails({ selectedLink }: any) {
         <>
           <div>
             <Title c={"gray.7"}>{selectedLink.name || "undefined"}</Title>
+            <Text c={"dimmed"}>{selectedLink.shortURL || 0}</Text>
             <Text c={"dimmed"}>{selectedLink.clicks || 0} Clicks</Text>
             <div className="flex gap-4">
               <Button variant={"outline"} w="90">

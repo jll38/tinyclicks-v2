@@ -8,11 +8,12 @@ import { ILocation, Traffic, Coordinate, Location } from "@/types/types";
 import { NextRequest } from "next/server";
 interface ITrafficServiceQuery {
   userId: string;
-  startTime: string;
+  startTime?: string;
   endTime?: string;
 }
 
-interface ITrafficServiceQueryByLink extends ITrafficServiceQuery {
+interface ITrafficServiceQueryByLink {
+  userId: string;
   linkId: string;
 }
 export class TrafficLogger {
@@ -122,27 +123,14 @@ export class TrafficService {
 
   static async _queryTrafficDataByLink(query: ITrafficServiceQueryByLink) {
     // Use the Prisma singleton instance for database operations
-    return await Prisma.getInstance().user.findMany({
+    return await Prisma.getInstance().traffic.findMany({
       where: {
-        id: query.userId
+        linkId: query.linkId,
       },
       select: {
-        links: {
-          select: {
-            traffic: {
-              select: {
-                createdAt: true,
-              },
-              where: {
-                linkId: query.linkId,
-                createdAt: {
-                  gte: query.startTime,
-                  lt: query.endTime ? query.endTime : undefined,
-                },
-              },
-            },
-          },
-        },
+        device: true,
+        browser: true,
+        source: true,
       },
     });
   }
