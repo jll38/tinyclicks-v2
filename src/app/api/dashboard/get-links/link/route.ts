@@ -12,12 +12,12 @@ export async function GET(req: NextRequest) {
   if (linkId === null)
     return NextResponse.json({ error: "No link specified" }, { status: 401 });
 
+  const trafficSources = await TrafficService._queryNumTrafficSourcesByLink({
+    userId,
+    linkId,
+  });
 
-  const linkTraffic = await TrafficService._queryNumTrafficSourcesByLink({userId, linkId});
-  let data = linkTraffic;
-
-  console.log(data);
-  return NextResponse.json(data, {
+  return NextResponse.json({trafficSources}, {
     status: 200,
   });
 }
