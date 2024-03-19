@@ -11,8 +11,9 @@ export function LinkDetails({ selectedLink }: any) {
     console.log("Fetching traffic data for " + selectedLink.name);
     //@ts-ignore
     if (session && session.user && session.user.id) {
-      //@ts-ignore
+      
       fetch(
+        //@ts-ignore
         `/api/dashboard/get-links/link?usr=${session.user.id}&link=${selectedLink.id}`
       )
         .then((res) => res.json())

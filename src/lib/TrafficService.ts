@@ -135,6 +135,18 @@ export class TrafficService {
     });
   }
 
+  static async _queryNumTrafficSourcesByLink(
+    query: ITrafficServiceQueryByLink
+  ) {
+    return await Prisma.getInstance().traffic.groupBy({
+      by: ["source"], // Group by the 'source' field
+      where: {
+        linkId: query.linkId, // Apply your existing filter
+      },
+      _count: true,
+    });
+  }
+
   static async _queryAllTrafficData(userId: string) {
     // Use the Prisma singleton instance for database operations
     return await Prisma.getInstance().user.findMany({
