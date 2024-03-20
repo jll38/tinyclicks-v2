@@ -1,14 +1,24 @@
 "use client";
 import React from "react";
-import { Box, Title, Text, Button, Tooltip, Loader } from "@mantine/core";
+import {
+  Box,
+  Title,
+  Text,
+  Button,
+  Tooltip,
+  Loader,
+  Modal,
+} from "@mantine/core";
 import styles from "./managelinks.module.css";
 import { useSession } from "next-auth/react";
+import { useDisclosure } from "@mantine/hooks";
 
 export function LinkDetails({ selectedLink }: any) {
   const [loading, setLoading] = React.useState<boolean>(true);
   const { data: session } = useSession();
   const [data, setData] = React.useState<any>();
   const [sourceCounts, setSourceCounts] = React.useState<any>();
+  const [opened, { open, close }] = useDisclosure(false);
 
   const [tooltip, setTooltip] = React.useState({
     visible: false,
@@ -71,7 +81,7 @@ export function LinkDetails({ selectedLink }: any) {
             placeItems: "center",
           }}
         >
-          <Loader/>
+          <Loader />
         </div>
       ) : (
         <>
@@ -92,45 +102,84 @@ export function LinkDetails({ selectedLink }: any) {
                       Traffic Sources
                     </Title>
                     {sourceCounts.length > 0 ? (
-                      <div className={styles.referrersBox}>
-                        {
-                          //@ts-ignore
-                          sourceCounts.map((source, i) => (
+                      <>
+                        <div className={styles.referrersBox}>
+                          {
+                            //@ts-ignore
+                            sourceCounts.map((source, i) => (
+                              <div
+                                key={"color-" + i}
+                                style={{
+                                  width: `${
+                                    (source._count / sourceCounts.length) * 100
+                                  }%`,
+                                  height: "100%",
+                                  backgroundColor: colors[i],
+                                }}
+                                onMouseEnter={handleMouseEnter(
+                                  `${source.source || "Unknown Origin"} - ${
+                                    source._count
+                                  } Clicks`
+                                )}
+                                onMouseMove={handleMouseMove}
+                                onMouseLeave={handleMouseLeave}
+                              ></div>
+                            ))
+                          }
+                          {tooltip.visible && (
                             <div
-                              key={"color-" + i}
                               style={{
-                                width: `${
-                                  (source._count / sourceCounts.length) * 100
-                                }%`,
-                                height: "100%",
-                                backgroundColor: colors[i],
+                                position: "fixed",
+                                left: tooltip.x + 10, // Offset from cursor
+                                top: tooltip.y + 10,
+                                backgroundColor: "white",
+                                border: "1px solid black",
+                                padding: "8px",
+                                zIndex: "50",
+                                pointerEvents: "none", // Prevents the tooltip from interfering with mouse events
                               }}
-                              onMouseEnter={handleMouseEnter(
-                                `${source.source || "Unknown Origin"} - ${
-                                  source._count
-                                } Clicks`
-                              )}
-                              onMouseMove={handleMouseMove}
-                              onMouseLeave={handleMouseLeave}
-                            ></div>
-                          ))
-                        }
-                        {tooltip.visible && (
+                            >
+                              {tooltip.content}
+                            </div>
+                          )}
+                        </div>
+                        <Modal
+                          opened={opened}
+                          onClose={close}
+                          title="Traffic Sources"
+                        >
                           <div
                             style={{
-                              position: "fixed",
-                              left: tooltip.x + 10, // Offset from cursor
-                              top: tooltip.y + 10,
-                              backgroundColor: "white",
-                              border: "1px solid black",
-                              padding: "8px",
-                              pointerEvents: "none", // Prevents the tooltip from interfering with mouse events
+                              maxHeight: "200px",
+                              overflow: "scroll",
                             }}
                           >
-                            {tooltip.content}
+                            {
+                              //@ts-ignore
+                              sourceCounts.map((source, i) => (
+                                <div>
+                                  {source.source || "Unknown Origin"} -{" "}
+                                  {source._count} Clicks
+                                </div>
+                              ))
+                            }
                           </div>
-                        )}
-                      </div>
+                          <Button
+                            style={{ margin: "10px 0" }}
+                            variant={"outline"}
+                            onClick={close}
+                          >
+                            Close
+                          </Button>
+                        </Modal>
+                        <Button
+                          style={{ margin: "10px 0" }}
+                          variant={"outline"}
+                          onClick={open}
+                        >
+                          More Details
+                        </Button>
+                      </>
                     ) : (
                       <>Link has not encountered any user traffic.</>
                     )}
