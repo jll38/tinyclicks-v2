@@ -1,10 +1,11 @@
 "use client";
 import React from "react";
-import { Box, Title, Text, Button, Tooltip } from "@mantine/core";
+import { Box, Title, Text, Button, Tooltip, Loader } from "@mantine/core";
 import styles from "./managelinks.module.css";
 import { useSession } from "next-auth/react";
 
 export function LinkDetails({ selectedLink }: any) {
+  const [loading, setLoading] = React.useState<boolean>(true);
   const { data: session } = useSession();
   const [data, setData] = React.useState<any>();
   const [sourceCounts, setSourceCounts] = React.useState<any>();
@@ -43,6 +44,7 @@ export function LinkDetails({ selectedLink }: any) {
   };
 
   React.useEffect(() => {
+    setLoading(true);
     console.log("Fetching traffic data for " + selectedLink.name);
     //@ts-ignore
     if (session && session.user && session.user.id) {
@@ -54,70 +56,94 @@ export function LinkDetails({ selectedLink }: any) {
         .then((data) => {
           console.log(data);
           setSourceCounts(data.trafficSources);
+          setLoading(false);
         });
     }
   }, [selectedLink, session]);
   return (
     <Box p={"30px 60px 10px 60px"} w={"100%"}>
-      {selectedLink ? (
-        <>
-          <div>
-            <Title c={"gray.7"}>{selectedLink.name || "undefined"}</Title>
-            <Text c={"dimmed"}>{selectedLink.shortURL || 0}</Text>
-            <Text c={"dimmed"}>{selectedLink.clicks || 0} Clicks</Text>
-            <div className="flex gap-4">
-              <Button variant={"outline"} w="90">
-                Edit
-              </Button>
-            </div>
-            {sourceCounts ? (
-              <div style={{margin: "20px 0"}}>
-                <Title c={"gray.7"} order={3}>Traffic Sources</Title>
-                <div className={styles.referrersBox}>
-                  {
-                    //@ts-ignore
-                  sourceCounts.map((source, i) => (
-                    <div
-                      key={"color-" + i}
-                      style={{
-                        width: `${
-                          (source._count / sourceCounts.length) * 100
-                        }%`,
-                        height: "100%",
-                        backgroundColor: colors[i],
-                      }}
-                      onMouseEnter={handleMouseEnter(
-                        `${source.source || "Unknown Origin"} - ${source._count} Clicks`
-                      )}
-                      onMouseMove={handleMouseMove}
-                      onMouseLeave={handleMouseLeave}
-                    >
-                    </div>
-                  ))}
-                  {tooltip.visible && (
-                    <div
-                      style={{
-                        position: "fixed",
-                        left: tooltip.x + 10, // Offset from cursor
-                        top: tooltip.y + 10,
-                        backgroundColor: "white",
-                        border: "1px solid black",
-                        padding: "8px",
-                        pointerEvents: "none", // Prevents the tooltip from interfering with mouse events
-                      }}
-                    >
-                      {tooltip.content}
-                    </div>
-                  )}
-                </div>
-              </div>
-            ) : (
-              <></>
-            )}
-          </div>
-        </>
+      {loading ? (
+        <div
+          style={{
+            width: "100%",
+            height: "100%",
+            display: "grid",
+            placeItems: "center",
+          }}
+        >
+          <Loader/>
+        </div>
       ) : (
-        <>No data to display</>
+        <>
+          {selectedLink ? (
+            <>
+              <div>
+                <Title c={"gray.7"}>{selectedLink.name || "undefined"}</Title>
+                <Text c={"dimmed"}>{selectedLink.shortURL || 0}</Text>
+                <Text c={"dimmed"}>{selectedLink.clicks || 0} Clicks</Text>
+                <div className="flex gap-4">
+                  <Button variant={"outline"} w="90">
+                    Edit
+                  </Button>
+                </div>
+                {sourceCounts ? (
+                  <div style={{ margin: "20px 0" }}>
+                    <Title c={"gray.7"} order={3}>
+                      Traffic Sources
+                    </Title>
+                    {sourceCounts.length > 0 ? (
+                      <div className={styles.referrersBox}>
+                        {
+                          //@ts-ignore
+                          sourceCounts.map((source, i) => (
+                            <div
+                              key={"color-" + i}
+                              style={{
+                                width: `${
+                                  (source._count / sourceCounts.length) * 100
+                                }%`,
+                                height: "100%",
+                                backgroundColor: colors[i],
+                              }}
+                              onMouseEnter={handleMouseEnter(
+                                `${source.source || "Unknown Origin"} - ${
+                                  source._count
+                                } Clicks`
+                              )}
+                              onMouseMove={handleMouseMove}
+                              onMouseLeave={handleMouseLeave}
+                            ></div>
+                          ))
+                        }
+                        {tooltip.visible && (
+                          <div
+                            style={{
+                              position: "fixed",
+                              left: tooltip.x + 10, // Offset from cursor
+                              top: tooltip.y + 10,
+                              backgroundColor: "white",
+                              border: "1px solid black",
+                              padding: "8px",
+                              pointerEvents: "none", // Prevents the tooltip from interfering with mouse events
+                            }}
+                          >
+                            {tooltip.content}
+                          </div>
+                        )}
+                      </div>
+                    ) : (
+                      <>Link has not encountered any user traffic.</>
+                    )}
+                  </div>
+                ) : (
+                  <></>
+                )}
+              </div>
+            </>
+          ) : (
+            <>No data to display</>
+          )}
+        </>
       )}
     </Box>
   );
