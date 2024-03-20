@@ -32,7 +32,8 @@
 
 .referrersBox{
   width: 100%;
-  border: 2px gray solid;
-  height: 150px;
+  border: 1px rgba(128, 128, 128, 0.449) solid;
+  height: 100px;
   display: flex;
+
 }
