@@ -12,10 +12,12 @@ export async function GET(req: NextRequest) {
   if (linkId === null)
     return NextResponse.json({ error: "No link specified" }, { status: 401 });
 
+  //Retrieve Traffic Sources
   let trafficSources = await TrafficService._queryNumTrafficSourcesByLink({
     userId,
     linkId,
   });
+  //Sort Traffic Sources in descending order
   trafficSources = trafficSources.sort((a, b) => b._count - a._count);
 
   return NextResponse.json(
