@@ -19,21 +19,27 @@
 }
 .linkButton > div:nth-child(1) {
   text-transform: capitalize;
-
 }
 .linkButton > div:nth-child(2) {
   color: #616161;
-
 }
 
 .linkButton:hover {
   background: #c9c9c9;
 }
 
-.referrersBox{
+.referrersBox {
   width: 100%;
   border: 1px rgba(128, 128, 128, 0.449) solid;
   height: 100px;
   display: flex;
 
+  @media (max-width: $mantine-breakpoint-sm) {
+    height: 50px;
+    (max-width: $mantine-breakpoint-md) {
+      height: 75px;
+    }
+  }
+
+  @media;
 }
