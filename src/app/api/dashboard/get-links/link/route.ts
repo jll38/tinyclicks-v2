@@ -17,11 +17,24 @@ export async function GET(req: NextRequest) {
     userId,
     linkId,
   });
+
+  let browserSources = await TrafficService._queryNumBrowserTrafficByLink({
+    userId,
+    linkId,
+  });
+
+  let deviceSources = await TrafficService._queryNumDeviceTrafficByLink({
+    userId,
+    linkId,
+  });
+
   //Sort Traffic Sources in descending order
   trafficSources = trafficSources.sort((a, b) => b._count - a._count);
+  browserSources = browserSources.sort((a, b) => b._count - a._count);
+  deviceSources = deviceSources.sort((a, b) => b._count - a._count);
 
   return NextResponse.json(
-    { trafficSources },
+    { trafficSources, browserSources, deviceSources },
     {
       status: 200,
     }

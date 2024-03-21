@@ -146,6 +146,29 @@ export class TrafficService {
       _count: true,
     });
   }
+  static async _queryNumDeviceTrafficByLink(
+    query: ITrafficServiceQueryByLink
+  ) {
+    return await Prisma.getInstance().traffic.groupBy({
+      by: ["device"], // Group by the 'source' field
+      where: {
+        linkId: query.linkId, // Apply your existing filter
+      },
+      _count: true,
+    });
+  }
+
+  static async _queryNumBrowserTrafficByLink(
+    query: ITrafficServiceQueryByLink
+  ) {
+    return await Prisma.getInstance().traffic.groupBy({
+      by: ["device"], // Group by the 'source' field
+      where: {
+        linkId: query.linkId, // Apply your existing filter
+      },
+      _count: true,
+    });
+  }
 
   static async _queryAllTrafficData(userId: string) {
     // Use the Prisma singleton instance for database operations

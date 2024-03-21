@@ -20,6 +20,8 @@ export function LinkDetails({ selectedLink }: any) {
   const [sourceCounts, setSourceCounts] = React.useState<any>();
   const [opened, { open, close }] = useDisclosure(false);
 
+  const [isEditable, setIsEditable] = React.useState<boolean>(false);
+
   const [tooltip, setTooltip] = React.useState({
     visible: false,
     content: "",
@@ -70,6 +72,11 @@ export function LinkDetails({ selectedLink }: any) {
         });
     }
   }, [selectedLink, session]);
+
+  const saveChanges = () => {
+    setIsEditable(false);
+    //POST API
+  };
   return (
     <Box p={"30px 60px 10px 60px"} w={"100%"}>
       {loading ? (
@@ -87,17 +94,55 @@ export function LinkDetails({ selectedLink }: any) {
         <>
           {selectedLink ? (
             <>
-              <div>
-                <Title c={"gray.7"}>{selectedLink.name || "undefined"}</Title>
-                <Text c={"dimmed"}>{selectedLink.shortURL || 0}</Text>
+              <div style={{width: "100%", display: "flex", flexDirection: "column", alignItems: "start"}}>
+                {!isEditable ? (
+                  <Title c={"gray.7"}>{selectedLink.name || "undefined"}</Title>
+                ) : (
+                  <Button style={{ padding: 0, margin: 0 }} variant={"transparent"}>
+                    <Title c={"gray.7"}>
+                      {selectedLink.name || "undefined"}
+                    </Title>
+                  </Button>
+                )}
+                {!isEditable ? (
+                  <Text c={"dimmed"}>{selectedLink.shortURL || 0}</Text>
+                ) : (
+                  <Button style={{ padding: 0, margin: 0 }} variant={"transparent"}>
+                    <Text c={"dimmed"}>{selectedLink.shortURL || 0}</Text>
+                  </Button>
+                )}
                 <Text c={"dimmed"}>{selectedLink.clicks || 0} Clicks</Text>
                 <div className="flex gap-4">
-                  <Button variant={"outline"} w="90">
-                    Edit
-                  </Button>
+                  {isEditable ? (
+                    <>
+                      {" "}
+                      <Button onClick={saveChanges} variant={"outline"} w="90">
+                        Save
+                      </Button>
+                      <Button
+                        onClick={() => {
+                          setIsEditable(false);
+                        }}
+                        variant={"outline"}
+                        w="90"
+                      >
+                        Cancel
+                      </Button>
+                    </>
+                  ) : (
+                    <Button
+                      onClick={() => {
+                        setIsEditable(true);
+                      }}
+                      variant={"outline"}
+                      w="90"
+                    >
+                      Edit
+                    </Button>
+                  )}
                 </div>
                 {sourceCounts ? (
-                  <div style={{ margin: "20px 0" }}>
+                  <div style={{ margin: "20px 0", width: "100%" }}>
                     <Title c={"gray.7"} order={3}>
                       Traffic Sources
                     </Title>
