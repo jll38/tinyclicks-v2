@@ -12,12 +12,17 @@ import {
 import styles from "./managelinks.module.css";
 import { useSession } from "next-auth/react";
 import { useDisclosure } from "@mantine/hooks";
+import { PieChart } from "@mantine/charts";
 
 export function LinkDetails({ selectedLink }: any) {
   const [loading, setLoading] = React.useState<boolean>(true);
   const { data: session } = useSession();
   const [data, setData] = React.useState<any>();
+
   const [sourceCounts, setSourceCounts] = React.useState<any>();
+  const [deviceCounts, setDeviceCounts] = React.useState<any>();
+  const [browserCounts, setBrowserCounts] = React.useState<any>();
+
   const [opened, { open, close }] = useDisclosure(false);
 
   const [isEditable, setIsEditable] = React.useState<boolean>(false);
@@ -68,6 +73,8 @@ export function LinkDetails({ selectedLink }: any) {
         .then((data) => {
           console.log(data);
           setSourceCounts(data.trafficSources);
+          setBrowserCounts(data.browserSources);
+          setDeviceCounts(data.deviceSources);
           setLoading(false);
         });
     }
@@ -94,11 +101,21 @@ export function LinkDetails({ selectedLink }: any) {
         <>
           {selectedLink ? (
             <>
-              <div style={{width: "100%", display: "flex", flexDirection: "column", alignItems: "start"}}>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "start",
+                }}
+              >
                 {!isEditable ? (
                   <Title c={"gray.7"}>{selectedLink.name || "undefined"}</Title>
                 ) : (
-                  <Button style={{ padding: 0, margin: 0 }} variant={"transparent"}>
+                  <Button
+                    style={{ padding: 0, margin: 0 }}
+                    variant={"transparent"}
+                  >
                     <Title c={"gray.7"}>
                       {selectedLink.name || "undefined"}
                     </Title>
@@ -107,7 +124,10 @@ export function LinkDetails({ selectedLink }: any) {
                 {!isEditable ? (
                   <Text c={"dimmed"}>{selectedLink.shortURL || 0}</Text>
                 ) : (
-                  <Button style={{ padding: 0, margin: 0 }} variant={"transparent"}>
+                  <Button
+                    style={{ padding: 0, margin: 0 }}
+                    variant={"transparent"}
+                  >
                     <Text c={"dimmed"}>{selectedLink.shortURL || 0}</Text>
                   </Button>
                 )}
