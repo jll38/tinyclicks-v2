@@ -60,7 +60,7 @@ export class TrafficLogger {
 }
 
 export class LinkTrafficLogger extends TrafficLogger {
-  static async recordTraffic(linkId: string, req: NextRequest): Promise<void> {
+  static async recordTraffic(linkId: string, req: any): Promise<void> {
     //1. Parse Request IP
     const ip = this._parseRequestIP(req);
     //2. Get Location Object
@@ -75,6 +75,9 @@ export class LinkTrafficLogger extends TrafficLogger {
           linkId,
           //@ts-ignore
           location,
+          source: req.referrer,
+          browser: req.browser,
+          device: req.device
         },
       });
     } catch (e) {

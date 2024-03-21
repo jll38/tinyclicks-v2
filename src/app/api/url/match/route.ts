@@ -30,7 +30,7 @@ export async function POST(req: NextRequest) {
   const { slug, referrer, browser, device }: IReqData = requestData;
   const linkRecord = await Prisma.getInstance().link.findFirst({
     where: {
-      shortURL: slug
+      shortURL: slug,
     },
     select: {
       originalURL: true,
@@ -40,7 +40,13 @@ export async function POST(req: NextRequest) {
 
   if (!linkRecord) return new Response("Link not found", { status: 404 });
 
-  await LinkTrafficLogger.recordTraffic(linkRecord.id, req)
+  await LinkTrafficLogger.recordTraffic(linkRecord.id, {
+    linkId: linkRecord.id,
+    location: requestData.location,
+    source: referrer,
+    browser,
+    device,
+  });
 
   await incrementLinkClicks(slug).catch((err) => {
     throw new Error("Error Incrementing Link Count", err);

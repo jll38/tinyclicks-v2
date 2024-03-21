@@ -23,7 +23,7 @@ class Redirector {
     const ip = await ClientIpFetcher.fetch();
     const { slug } = this.params;
     const referrer = document.referrer;
-
+    
     try {
       const data = await this.fetchData(
         slug,
