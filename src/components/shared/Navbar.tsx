@@ -74,7 +74,7 @@ export default function Navbar() {
               <Menu.Dropdown>
                 <Menu.Item component="a" href="/profile" disabled>
                   <Flex justify={"start"} align="center" gap={6}>
-                    <Avatar src={session.user?.image}></Avatar>
+                    <Avatar alt="User Profile Picture" src={session.user?.image}></Avatar>
                     <div>Profile</div>
                   </Flex>
                 </Menu.Item>

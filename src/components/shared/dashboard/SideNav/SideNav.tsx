@@ -58,7 +58,6 @@ const mockdata = [
     route: "/dashboard/analytics",
   },
   { icon: IconGlobe, label: "Geolocation", route: "/dashboard/geography" },
-  { icon: IconUser, label: "Account", route: "/dashboard/account" },
   { icon: IconSettings, label: "Settings", route: "/dashboard/settings" },
 ];
 
