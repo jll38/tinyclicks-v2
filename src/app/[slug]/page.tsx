@@ -68,7 +68,7 @@ export default function Redirect({ params }: { params: IParams }) {
   useEffect(() => {
     const redirector = new Redirector(params);
     redirector.redirectToMatchedUrl();
-  }, [params.slug]);
+  }, [params]);
 
   return <div></div>;
 }

@@ -222,7 +222,7 @@ export function LinkDetails({ selectedLink }: any) {
                             {
                               //@ts-ignore
                               sourceCounts.map((source, i) => (
-                                <div>
+                                <div key={"link-source-" + { i }}>
                                   {source.source || "Unknown Origin"} -{" "}
                                   {source._count} Clicks
                                 </div>

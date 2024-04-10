@@ -59,7 +59,7 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
     });
 
     return () => initializeMap.remove();
-  }, []);
+  }, [initialCenter, initialZoom]);
 
   return (
     <main style={{ width: "95vw" }}>
