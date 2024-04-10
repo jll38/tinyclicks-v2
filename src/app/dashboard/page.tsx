@@ -4,16 +4,19 @@ import TopPerformers from "@/components/dashboard/TopPerformers/TopPerformers";
 import TodaysClicks from "@/components/dashboard/TodaysClicks/TodaysClicks";
 import WeeksClicks from "@/components/dashboard/WeeksClicks/WeeksClicks";
 import { Container, Grid, SimpleGrid, Skeleton, rem } from "@mantine/core";
+import { isMobile } from "react-device-detect";
 import DailyClicks from "@/components/dashboard/DailyClicks/DailyClicks";
-export default async function Dashboard() {
-
+export default function Dashboard() {
+  if(!isMobile) {
+    console.log("Mobile")
+  }
   return (
     <main style={{ width: "90vw", padding: 20 }}>
       <LeadGrid
         pos1={<TopPerformers />}
         pos2={<TodaysClicks />}
         pos3={<WeeksClicks />}
-        pos4={<DailyClicks/>}
+        pos4={<DailyClicks />}
       />
     </main>
   );
