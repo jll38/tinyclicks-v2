@@ -21,7 +21,7 @@ import { useRouter } from "next/router";
 import { navigate } from "@/lib/navigate";
 
 interface NavbarLinkProps {
-  icon: typeof IconHome2;
+  icon: any
   label: string;
   active?: boolean;
   onClick?(): void;
@@ -42,12 +42,15 @@ function NavbarLink({
         className={classes.link}
         data-active={active || undefined}
       >
-        <Icon style={{ width: rem(20), height: rem(20) }} stroke={1.5} />
+        {typeof Icon === 'function' ? (
+          <Icon style={{ width: rem(20), height: rem(20) }} stroke={1.5} />
+        ) : (
+          <Icon style={{ width: rem(20), height: rem(20) }} />
+        )}
       </UnstyledButton>
     </Tooltip>
   );
 }
-
 const mockdata = [
   { icon: IconHome2, label: "Home", route: "/dashboard" },
   { icon: IconLink, label: "Links", route: "/dashboard/manage-links" },
